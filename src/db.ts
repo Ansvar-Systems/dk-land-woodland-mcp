@@ -50,7 +50,7 @@ function initSchema(db: BetterSqlite3.Database): void {
       important_hedgerow_criteria TEXT,
       penalties TEXT,
       regulation_ref TEXT,
-      jurisdiction = 'DK'
+      jurisdiction TEXT DEFAULT 'DK'
     );
 
     CREATE TABLE IF NOT EXISTS felling_rules (
@@ -63,7 +63,7 @@ function initSchema(db: BetterSqlite3.Database): void {
       application_process TEXT,
       penalties TEXT,
       regulation_ref TEXT,
-      jurisdiction = 'DK'
+      jurisdiction TEXT DEFAULT 'DK'
     );
 
     CREATE TABLE IF NOT EXISTS sssi_operations (
@@ -73,7 +73,7 @@ function initSchema(db: BetterSqlite3.Database): void {
       process TEXT,
       typical_conditions TEXT,
       penalties TEXT,
-      jurisdiction = 'DK'
+      jurisdiction TEXT DEFAULT 'DK'
     );
 
     CREATE TABLE IF NOT EXISTS rights_of_way (
@@ -84,7 +84,7 @@ function initSchema(db: BetterSqlite3.Database): void {
       cropping_rules TEXT,
       reinstatement_deadline TEXT,
       obstruction_liability TEXT,
-      jurisdiction = 'DK'
+      jurisdiction TEXT DEFAULT 'DK'
     );
 
     CREATE TABLE IF NOT EXISTS common_land_rules (
@@ -93,7 +93,7 @@ function initSchema(db: BetterSqlite3.Database): void {
       consent_required INTEGER,
       consent_authority TEXT,
       process TEXT,
-      jurisdiction = 'DK'
+      jurisdiction TEXT DEFAULT 'DK'
     );
 
     CREATE TABLE IF NOT EXISTS planting_guidance (
@@ -104,7 +104,7 @@ function initSchema(db: BetterSqlite3.Database): void {
       eia_screening_required INTEGER,
       grant_available TEXT,
       ancient_woodland_buffer_m INTEGER,
-      jurisdiction = 'DK'
+      jurisdiction TEXT DEFAULT 'DK'
     );
 
     CREATE TABLE IF NOT EXISTS tpo_rules (
@@ -116,7 +116,7 @@ function initSchema(db: BetterSqlite3.Database): void {
       process TEXT,
       penalties TEXT,
       regulation_ref TEXT,
-      jurisdiction = 'DK'
+      jurisdiction TEXT DEFAULT 'DK'
     );
 
     CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
@@ -130,7 +130,7 @@ function initSchema(db: BetterSqlite3.Database): void {
 
     INSERT OR IGNORE INTO db_metadata (key, value) VALUES ('schema_version', '1.0');
     INSERT OR IGNORE INTO db_metadata (key, value) VALUES ('mcp_name', 'UK Land & Woodland Management MCP');
-    INSERT OR IGNORE INTO db_metadata (key, value) VALUES ('jurisdiction = 'DK');
+    INSERT OR IGNORE INTO db_metadata (key, value) VALUES ('jurisdiction', 'DK');
   `);
 }
 
