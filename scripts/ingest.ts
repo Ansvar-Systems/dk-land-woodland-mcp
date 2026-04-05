@@ -115,6 +115,40 @@ const protectedHabitats = [
     regulation_ref: 'Naturbeskyttelsesloven §3',
     jurisdiction: 'DK',
   },
+  // -- Additional §3 habitat details --
+  {
+    action: '§3-dispensation (ansogningsproces)',
+    notice_required: 1,
+    exemptions: 'Kommunen kan meddele dispensation i saerlige tilfaelde. Afgoerelser kan paaklages til Miljoe- og Foedevareklagenaevnet inden 4 uger.',
+    important_hedgerow_criteria:
+      'Ansogning sendes til kommunen med redegoerelse for projektets paavirkninger. Kommunen vurderer om der foreligger saerlige omstaendigheder.',
+    penalties:
+      'Afslag kan paaklages til Miljoe- og Foedevareklagenaevnet. Opsaettende virkning ved klage.',
+    regulation_ref: 'Naturbeskyttelsesloven §65',
+    jurisdiction: 'DK',
+  },
+  {
+    action: '§3-registrering (miljoeportalen)',
+    notice_required: 0,
+    exemptions: 'Registreringen er vejledende — den retlige beskyttelse afhanger af den faktiske naturtilstand, ikke registreringen.',
+    important_hedgerow_criteria:
+      'Alle §3-registrerede arealer kan ses paa miljoeportalen.dk (Danmarks Arealinformation). Kommunen foretager besigtigelse ved tvivl.',
+    penalties:
+      'Registrering er ikke i sig selv en afgoerelse. Ejeren kan anmode kommunen om revurdering.',
+    regulation_ref: 'Naturbeskyttelsesloven §3; Miljoeportalen',
+    jurisdiction: 'DK',
+  },
+  {
+    action: '§3-plejepligt (ejerens ansvar)',
+    notice_required: 0,
+    exemptions: 'Kommunen kan paabyde pleje af §3-arealer. Ejeren kan soege om tilskud til naturpleje.',
+    important_hedgerow_criteria:
+      'Ejeren har pligt til at vedligeholde naturtypen og maa ikke forvaerre tilstanden. Tilgroning med traeer og buske kan kraeve aktiv pleje (afgrasning, slaaning).',
+    penalties:
+      'Kommunen kan udstede plejepaabud. Manglende efterlevelse kan medfoere tvangsbod.',
+    regulation_ref: 'Naturbeskyttelsesloven §3, stk. 3; Bekendtgoerelse om pleje af §3-arealer',
+    jurisdiction: 'DK',
+  },
 ];
 
 const insertHedgerow = db.instance.prepare(`
@@ -193,6 +227,69 @@ const forestRules = [
     regulation_ref: 'Skovloven §8-9',
     jurisdiction: 'DK',
   },
+  // -- Additional forest details --
+  {
+    scenario: 'Boegeskov (Danmarks primaere lovskovstype)',
+    licence_required: 0,
+    threshold_m3: null,
+    threshold_ha: null,
+    exemptions: null,
+    application_process:
+      'Boegeskov er Danmarks mest udbredte skovtype og daekker ca. 16% af det samlede skovareal. Boegen trives bedst paa leret moraene i Ostdanmark. Omdriftstid typisk 100-120 aar.',
+    penalties: null,
+    regulation_ref: 'Skovloven (generel)',
+    jurisdiction: 'DK',
+  },
+  {
+    scenario: 'Naaleskov (gran og douglasgran)',
+    licence_required: 0,
+    threshold_m3: null,
+    threshold_ha: null,
+    exemptions: null,
+    application_process:
+      'Naaleskov udgoer ca. 40% af det danske skovareal. Primaere arter: roedgran, sitkagran og douglasgran. Roedgran dominerer, men er saarbar over for stormfald og barkbiller. Omdriftstid typisk 50-80 aar.',
+    penalties: null,
+    regulation_ref: 'Skovloven (generel)',
+    jurisdiction: 'DK',
+  },
+  {
+    scenario: 'Uroert skov (biodiversitetspakken)',
+    licence_required: 1,
+    threshold_m3: null,
+    threshold_ha: null,
+    exemptions: 'Eksisterende fredsskovspligt ophaeves ikke — arealet omlaeggs fra driftsskov til uroert skov.',
+    application_process:
+      '75.000 ha statslig og privat skov skal udpeges til uroert skov inden 2066 ifoeolge biodiversitetspakken (2020). Uroert skov friholdes for al hugst og forstlig drift. Private skovejere kan modtage kompensation.',
+    penalties:
+      'Tilbagebetaling af kompensation ved brud paa uroert-skov-aftale.',
+    regulation_ref: 'Biodiversitetspakken 2020; Skovloven §25',
+    jurisdiction: 'DK',
+  },
+  {
+    scenario: 'Naturnationalparker (15 udpegede)',
+    licence_required: 1,
+    threshold_m3: null,
+    threshold_ha: null,
+    exemptions: null,
+    application_process:
+      '15 naturnationalparker er udpeget i Danmark. Formaal: styrke biodiversiteten gennem rewilding med store graessere (heste, kvag, bison). Skovdrift ophorer i naturnationalparkerne. Hegning med 1,5 m hegn. Offentlig adgang bevares.',
+    penalties:
+      'Forbud mod skovdrift, jordbearbejdning og goedning inden for parkerne.',
+    regulation_ref: 'Lov om naturnationalparker (L 229, 2021)',
+    jurisdiction: 'DK',
+  },
+  {
+    scenario: 'Skovbryn (anbefalinger)',
+    licence_required: 0,
+    threshold_m3: null,
+    threshold_ha: null,
+    exemptions: null,
+    application_process:
+      'Skovbryn anbefales mindst 20 m brede med buske og lovtraer for at beskytte skovens indre mod vind og udtorring. Skovbryn er vigtige levesteder for insekter, fugle og smaa pattedyr. Tilskud kan soges til etablering af skovbryn ved skovrejsning.',
+    penalties: null,
+    regulation_ref: 'Skovloven (vejledning); Naturstyrelsen anbefalinger',
+    jurisdiction: 'DK',
+  },
 ];
 
 const insertFelling = db.instance.prepare(`
@@ -265,6 +362,29 @@ const natureConservation = [
       'Forbud mod jordbearbejdning og byggeri inden for 100 m af synlige fortidsminder.',
     penalties:
       'Paabud, politianmeldelse og erstatningskrav fra Slots- og Kulturstyrelsen.',
+    jurisdiction: 'DK',
+  },
+  // -- Coastal zones --
+  {
+    operation: 'Klitfredning (vestkysten)',
+    consent_required: 1,
+    process:
+      'Klitfredningslinjen langs den jyske vestkyst (typisk 300 m, op til 500 m). Dispensation soeges hos Kystdirektoratet. Klitfredningen gaelder ogsaa paa Laesoe, Anholt og langs Skagerrak/Kattegat-kysten.',
+    typical_conditions:
+      'Forbud mod bebyggelse, beplantning, gravearbejde og terraenaendring inden for klitfredningslinjen. Eksisterende bygninger maa ikke udvides.',
+    penalties:
+      'Paabud om fjernelse af ulovligt byggeri/beplantning paa ejerens regning. Politianmeldelse. Kystdirektoratet kan foretage fysisk lovliggoeerelse.',
+    jurisdiction: 'DK',
+  },
+  {
+    operation: 'Kystbeskyttelse (tilladelse)',
+    consent_required: 1,
+    process:
+      'Kystbeskyttelsesforanstaltninger (hoefdder, skranter, sandfodring) kraever tilladelse fra Kystdirektoratet. Ansogning indsendes via Kystdirektoratets selvbetjeningsportal. Kommunen kan vaere projektejer for storre kystbeskyttelsesprojekter.',
+    typical_conditions:
+      'Kystbeskyttelse maa ikke forvaerre erosion paa nabostralkninger (lee-erosion). VVM-screening er typisk paakreevet. Grundejerbidrags-ordning kan paalegges beroorte grundejere.',
+    penalties:
+      'Ulovlig kystbeskyttelse skal fjernes paa ejerens regning. Kystdirektoratet kan nedlaegge forbud mod igangvaerende arbejder.',
     jurisdiction: 'DK',
   },
 ];
@@ -340,6 +460,55 @@ const farmlandObligations = [
       'Afslag og paabud om sammenforing af udstykket jord.',
     jurisdiction: 'DK',
   },
+  // -- Additional farmland rules --
+  {
+    path_type: 'Jordpris (regional variation)',
+    obligation:
+      'Gennemsnitlige jordpriser varierer regionalt: Sjaelland ca. 200.000 DKK/ha, Jylland ca. 150.000 DKK/ha, Fyn ca. 175.000 DKK/ha. Priserne pavirkes af bonitet, beliggenhed og EU-stoetterettigheder.',
+    min_width_m: null,
+    cropping_rules:
+      'Jordprisen inkluderer typisk ikke maskiner eller bygninger. Betalingsrettigheder handles separat.',
+    reinstatement_deadline: null,
+    obstruction_liability:
+      'Jordpriser reguleres af markedet. Vurderingsstyrelsen foretager ejendomsvurdering hvert andet aar.',
+    jurisdiction: 'DK',
+  },
+  {
+    path_type: 'Forpagtning',
+    obligation:
+      'Forpagtning er lejeaftale for landbrugsjord. Gennemsnitlig forpagtningsafgift ca. 4.000-6.000 DKK/ha aarligt afhangigt af bonitet og beliggenhed.',
+    min_width_m: null,
+    cropping_rules:
+      'Forpagtningskontrakt boer vaere skriftlig. Typisk loebeperiode 5-10 aar med opsigelsesvarsel. Forpagteren overtager driftspligten.',
+    reinstatement_deadline: 'Ved kontraktudloeb.',
+    obstruction_liability:
+      'Tvister afgoeres efter lejeloven og landbrugslovens regler. Forpagteren hafter for jordskader.',
+    jurisdiction: 'DK',
+  },
+  {
+    path_type: 'Brakarealer (GLM 8)',
+    obligation:
+      'Fra 2024 skal minimum 4% af omdriftsarealet vaere ikke-produktive arealer (GLM 8, konditionalitet). Omfatter brak, blomsterbrak, bestoeverbrak, markkanter og landskabselementer.',
+    min_width_m: null,
+    cropping_rules:
+      'Brakarealer maa ikke goedes, sproejtes eller hoestes. Slaaning tilladt fra 1. august. Kan kombineres med miljoeordninger for hojere tilskud.',
+    reinstatement_deadline: 'Aarlig forpligtelse under EU-stoetteordningen.',
+    obstruction_liability:
+      'Manglende overholdelse medfoerer reduktion i grundbetaling (krydsoverensstemmelse).',
+    jurisdiction: 'DK',
+  },
+  {
+    path_type: 'Lavbundsjorde (udtagning)',
+    obligation:
+      'Udtagning af kulstofrige lavbundsjorde fra landbrugsdrift. Erstatningsordning via Miljoeministeriet. Formaal: reducere CO2-udledning fra dranede torvejorde (ca. 6 mio. ton CO2 aarligt fra danske lavbundsjorde).',
+    min_width_m: null,
+    cropping_rules:
+      'Udtagede lavbundsjorde genvaedes og overgaar til permanent natur. Ingen fremtidig dyrkning tilladt.',
+    reinstatement_deadline: 'Permanent udtagning — ingen tilbagefoersel.',
+    obstruction_liability:
+      'Erstatning til ejeren baseret paa arealets vaerdi. Tinglyst servitut sikrer permanent udtagning.',
+    jurisdiction: 'DK',
+  },
 ];
 
 const insertROW = db.instance.prepare(`
@@ -381,6 +550,39 @@ const landConsolidation = [
     consent_authority: 'Staten (Miljoestyrelsen / Landbrugsstyrelsen)',
     process:
       'Offentlig jordfordeling for naturgenopretning, klimaprojekter eller infrastruktur. Staten kan ekspropriere mod fuldstaendig erstatning. Kræver offentlig hoering.',
+    jurisdiction: 'DK',
+  },
+  // -- Hunting & wildlife --
+  {
+    activity: 'Jagtret (grundejerens ret)',
+    consent_required: 0,
+    consent_authority: 'Grundejeren',
+    process:
+      'Jagtretten tilhoerer grundejeren og kan bortforpagtes via jagtlejekontrakt. Typisk jagtleje: 200-500 DKK/ha aarligt afhangigt af vildtbestand og terran. Jagtlejekontrakter boer vaere skriftlige med angivelse af vilkaar, omraade og loebeperiode.',
+    jurisdiction: 'DK',
+  },
+  {
+    activity: 'Jagtloven (jagttider og jagttegn)',
+    consent_required: 1,
+    consent_authority: 'Miljoestyrelsen',
+    process:
+      'Jagttegn er obligatorisk for at udoeve jagt i Danmark (koster ca. 565 DKK/aar). Jagtprove kraeves for foerstegangsjaegere. Jagttider fastsaettes af miljoeministeriet for hver vildtart — se galdende jagttidstabel. Jagt maa kun finde sted i perioden 1. september til 31. januar for de fleste arter.',
+    jurisdiction: 'DK',
+  },
+  {
+    activity: 'Vildtforvaltningsplaner',
+    consent_required: 0,
+    consent_authority: 'Miljoestyrelsen / Vildtforvaltningsraadet',
+    process:
+      'Nationale forvaltningsplaner for hjortevildt (kronvildt, daavildt, sika), gaes (bramgaes, graagas, kortnabbet gas) og skarv. Planerne fastsaetter jagtkvoter, fodringsforbud og jagtfredningsperioder. Lokale hjortevildtgrupper koordinerer forvaltningen regionalt.',
+    jurisdiction: 'DK',
+  },
+  {
+    activity: 'Vildtskader (erstatning)',
+    consent_required: 1,
+    consent_authority: 'Miljoestyrelsen',
+    process:
+      'Erstatning for markskader foraarsaget af kronvildt, bramgas og andre fredede arter. Ansogning til Miljoestyrelsen med dokumentation for skadens omfang. Reguleringstilladelse kan gives til bekaempelse af skadevoldende vildt uden for normal jagttid.',
     jurisdiction: 'DK',
   },
 ];
@@ -582,12 +784,15 @@ for (const f of forestRules) {
   );
 }
 
-// Nature conservation
+// Nature conservation + coastal zones
 for (const s of natureConservation) {
+  const topic = s.operation.startsWith('Klit') || s.operation.startsWith('Kyst')
+    ? 'Kystbeskyttelse'
+    : 'Naturbeskyttelse';
   insertFTS.run(
     s.operation,
     `${s.process} ${s.typical_conditions} ${s.penalties}`,
-    'Naturbeskyttelse',
+    topic,
     'DK'
   );
 }
@@ -602,12 +807,15 @@ for (const r of farmlandObligations) {
   );
 }
 
-// Land consolidation
+// Land consolidation + hunting & wildlife
 for (const c of landConsolidation) {
+  const topic = c.activity.startsWith('Jagt') || c.activity.startsWith('Vildt')
+    ? 'Jagt og vildtforvaltning'
+    : 'Jordfordeling';
   insertFTS.run(
     c.activity,
     c.process,
-    'Jordfordeling',
+    topic,
     'DK'
   );
 }
@@ -654,7 +862,7 @@ db.run("INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('last_ingest', ?
 db.run("INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('build_date', ?)", [now]);
 db.run(
   "INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('data_sources', ?)",
-  ['Naturstyrelsen, Miljoestyrelsen, Landbrugsstyrelsen, Plan- og Landdistriktsstyrelsen']
+  ['Naturstyrelsen, Miljoestyrelsen, Landbrugsstyrelsen, Plan- og Landdistriktsstyrelsen, Kystdirektoratet, Miljoeministeriet']
 );
 db.run(
   "INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('disclaimer', ?)",
@@ -688,6 +896,8 @@ writeFileSync(
         'Miljoestyrelsen',
         'Landbrugsstyrelsen',
         'Plan- og Landdistriktsstyrelsen',
+        'Kystdirektoratet',
+        'Miljoeministeriet',
       ],
       disclaimer:
         'Data er vejledende. Kontakt din kommune for konkrete arealbeskyttelser. §3-registreringen kan ses paa miljoeportalen.dk.',

@@ -4,20 +4,22 @@
   "build_date": "2026-04-05",
   "status": "populated",
   "record_counts": {
-    "protected_habitats": 7,
-    "forest_rules": 4,
-    "nature_conservation": 4,
-    "farmland_obligations": 4,
-    "land_consolidation": 2,
+    "protected_habitats": 10,
+    "forest_rules": 9,
+    "nature_conservation": 6,
+    "farmland_obligations": 8,
+    "land_consolidation": 6,
     "planting_guidance": 5,
     "tree_protection": 4,
-    "fts_entries": 30
+    "fts_entries": 48
   },
   "data_sources": [
     "Naturstyrelsen",
     "Miljoestyrelsen",
     "Landbrugsstyrelsen",
-    "Plan- og Landdistriktsstyrelsen"
+    "Plan- og Landdistriktsstyrelsen",
+    "Kystdirektoratet",
+    "Miljoeministeriet"
   ],
   "disclaimer": "Data er vejledende. Kontakt din kommune for konkrete arealbeskyttelser. §3-registreringen kan ses paa miljoeportalen.dk."
 }
