@@ -8,18 +8,17 @@ export interface Meta {
 }
 
 const DISCLAIMER =
-  'This server provides general guidance on UK land and woodland management regulations. ' +
-  'Requirements vary by local planning authority, devolved administration, and site-specific ' +
-  'designations (SSSI, conservation area, TPO, etc.). Always consult your local planning ' +
-  'authority, Natural England, or Forestry Commission for site-specific requirements.';
+  'Data er vejledende. Kontakt din kommune for konkrete arealbeskyttelser. ' +
+  '§3-registreringen kan ses paa miljoeportalen.dk. Regler varierer efter ' +
+  'kommuneplan, lokalplan og specifikke udpegninger (Natura 2000, fredskov, §3-areal).';
 
 export function buildMeta(overrides?: Partial<Meta>): Meta {
   return {
     disclaimer: DISCLAIMER,
     data_age: overrides?.data_age ?? 'unknown',
-    source_url: overrides?.source_url ?? 'https://www.legislation.gov.uk',
-    copyright: 'Data: Crown Copyright. Server: Apache-2.0 Ansvar Systems.',
-    server: 'dk-land-woodland-mcp',
+    source_url: overrides?.source_url ?? 'https://www.retsinformation.dk',
+    copyright: 'Data: Naturstyrelsen, Miljoestyrelsen, Landbrugsstyrelsen. Server: Apache-2.0 Ansvar Systems.',
+    server: 'Danish Land and Woodland MCP',
     version: '0.1.0',
     ...overrides,
   };
