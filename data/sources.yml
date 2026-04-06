@@ -1,22 +1,94 @@
 schema_version: "1.0"
-mcp_name: "Denmark Land Woodland MCP"
+mcp_name: "Danish Land and Woodland MCP"
 category: "domain_intelligence"
 
 sources:
-  # TODO: Add Denmark-specific data sources here.
-  # Example:
-  # - name: "National Agriculture Advisory Service"
-  #   authority: "Ministry of Agriculture"
-  #   official_url: "https://example.gov.de/agriculture"
-  #   retrieval_method: "HTML_SCRAPE"
-  #   format: "HTML"
-  #   authentication: "none"
-  #   update_frequency: "annual"
-  #   license:
-  #     type: "Open Government Licence"
-  #     url: "https://example.gov.de/licence"
-  #   coverage:
-  #     scope: "National agricultural data"
-  #   languages:
-  #     - "de"
-  []
+  - name: "Skovloven (LBK nr 315 af 28/03/2019)"
+    authority: "Naturstyrelsen / Miljøministeriet"
+    official_url: "https://www.retsinformation.dk/eli/lta/2019/315"
+    retrieval_method: "MANUAL_REVIEW"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "as_amended"
+    license:
+      type: "Åbne Offentlige Data"
+      url: "https://www.retsinformation.dk"
+    coverage:
+      scope: "Fredskov, fældetilladelse, skovdyrkningspligt, skovbyggelinje, skovrejsning"
+    languages:
+      - "da"
+
+  - name: "Naturbeskyttelsesloven (LBK nr 1392 af 04/10/2022)"
+    authority: "Miljøstyrelsen / Miljøministeriet"
+    official_url: "https://www.retsinformation.dk/eli/lta/2022/1392"
+    retrieval_method: "MANUAL_REVIEW"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "as_amended"
+    license:
+      type: "Åbne Offentlige Data"
+      url: "https://www.retsinformation.dk"
+    coverage:
+      scope: "§3 beskyttede naturtyper, adgangsret, sø- og åbeskyttelseslinje, fortidsmindebeskyttelse, klitfredning, strandbeskyttelseslinje"
+    languages:
+      - "da"
+
+  - name: "Lov om hegn (LBK nr 851 af 17/08/2011)"
+    authority: "Plan- og Landdistriktsstyrelsen / Indenrigs- og Boligministeriet"
+    official_url: "https://www.retsinformation.dk/eli/lta/2011/851"
+    retrieval_method: "MANUAL_REVIEW"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "as_amended"
+    license:
+      type: "Åbne Offentlige Data"
+      url: "https://www.retsinformation.dk"
+    coverage:
+      scope: "Hegnspligt, levende hegn, skelforhold, hegnssyn, naboforhold"
+    languages:
+      - "da"
+
+  - name: "Miljøbeskyttelsesloven (LBK nr 100 af 19/01/2022)"
+    authority: "Miljøstyrelsen"
+    official_url: "https://www.retsinformation.dk/eli/lta/2022/100"
+    retrieval_method: "MANUAL_REVIEW"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "as_amended"
+    license:
+      type: "Åbne Offentlige Data"
+      url: "https://www.retsinformation.dk"
+    coverage:
+      scope: "Miljøbeskyttelse, gødningsregler, pesticider, vandmiljø, randzoner"
+    languages:
+      - "da"
+
+  - name: "Landbrugsstyrelsens vejledninger (gødning og sprøjtemidler)"
+    authority: "Landbrugsstyrelsen"
+    official_url: "https://lbst.dk/landbrug/regler-for-landbrug/"
+    retrieval_method: "MANUAL_REVIEW"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "annual"
+    license:
+      type: "Åbne Offentlige Data"
+      url: "https://lbst.dk"
+    coverage:
+      scope: "Gødningsnormer, sprøjtemiddelbegrænsninger, randzoner, jordbehandling, Natura 2000-tilskud"
+    languages:
+      - "da"
+
+  - name: "Kystdirektoratets regler om strandbeskyttelseslinjen"
+    authority: "Kystdirektoratet"
+    official_url: "https://kyst.dk/kystbeskyttelse/strandbeskyttelseslinjen/"
+    retrieval_method: "MANUAL_REVIEW"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "as_amended"
+    license:
+      type: "Åbne Offentlige Data"
+      url: "https://kyst.dk"
+    coverage:
+      scope: "Strandbeskyttelseslinje (300m), dispensation, bygge- og anlægsforhold ved kysten"
+    languages:
+      - "da"

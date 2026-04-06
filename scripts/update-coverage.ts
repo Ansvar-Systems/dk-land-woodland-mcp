@@ -16,8 +16,8 @@ const plantingCount = db.get<{ c: number }>('SELECT COUNT(*) as c FROM planting_
 const ftsCount = db.get<{ c: number }>('SELECT COUNT(*) as c FROM search_index')?.c ?? 0;
 
 const coverage = {
-  mcp_name: 'UK Land & Woodland Management MCP',
-  jurisdiction: 'GB',
+  mcp_name: 'Danish Land and Woodland MCP',
+  jurisdiction: 'DK',
   build_date: new Date().toISOString().split('T')[0],
   hedgerow_rules: hedgerowCount,
   felling_rules: fellingCount,

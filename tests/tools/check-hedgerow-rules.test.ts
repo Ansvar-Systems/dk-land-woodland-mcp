@@ -18,8 +18,8 @@ describe('check_hedgerow_rules tool', () => {
     if (existsSync(TEST_DB)) unlinkSync(TEST_DB);
   });
 
-  test('returns rules for remove action', () => {
-    const result = handleCheckHedgerowRules(db, { action: 'remove' });
+  test('returns rules for fjernelse (removal) action', () => {
+    const result = handleCheckHedgerowRules(db, { action: 'fjernelse' });
     const typed = result as { results_count: number; results: { action: string; notice_required: boolean }[] };
     expect(typed.results_count).toBeGreaterThan(0);
     // At least one removal rule requires notice
@@ -27,8 +27,8 @@ describe('check_hedgerow_rules tool', () => {
     expect(noticeRequired).toBe(true);
   });
 
-  test('returns rules for trim action', () => {
-    const result = handleCheckHedgerowRules(db, { action: 'trim' });
+  test('returns rules for klipning (trimming) action', () => {
+    const result = handleCheckHedgerowRules(db, { action: 'klipning' });
     const typed = result as { results: { notice_required: boolean }[] };
     expect(typed.results.length).toBeGreaterThan(0);
     // Trimming does not require notice
@@ -43,14 +43,14 @@ describe('check_hedgerow_rules tool', () => {
   });
 
   test('rejects unsupported jurisdiction', () => {
-    const result = handleCheckHedgerowRules(db, { action: 'remove', jurisdiction: 'SE' });
+    const result = handleCheckHedgerowRules(db, { action: 'fjernelse', jurisdiction: 'SE' });
     expect(result).toHaveProperty('error', 'jurisdiction_not_supported');
   });
 
   test('penalty data is present', () => {
-    const result = handleCheckHedgerowRules(db, { action: 'remove' });
+    const result = handleCheckHedgerowRules(db, { action: 'fjernelse' });
     const typed = result as { results: { penalties: string }[] };
-    const withPenalty = typed.results.filter(r => r.penalties && r.penalties.includes('25,000'));
+    const withPenalty = typed.results.filter(r => r.penalties && r.penalties.includes('DKK'));
     expect(withPenalty.length).toBeGreaterThan(0);
   });
 });

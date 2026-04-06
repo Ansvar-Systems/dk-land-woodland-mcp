@@ -36,109 +36,124 @@ Check when data was last ingested, staleness status, and how to trigger a refres
 
 ### `search_land_rules`
 
-Full-text search across all land and woodland management rules. Use for broad queries about hedgerows, felling, SSSI, rights of way, common land, or planting.
+Full-text search across all Danish land and woodland management rules. Use for broad queries about hegn, fredskov, §3-natur, adgangsret, overdrev, or skovrejsning.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `query` | string | Yes | Free-text search query |
+| `query` | string | Yes | Free-text search query (Danish or English) |
 | `topic` | string | No | Filter by topic (hedgerow, felling, sssi, rights_of_way, common_land, planting) |
-| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: GB) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
 | `limit` | number | No | Max results (default: 20, max: 50) |
 
-**Example:** `{ "query": "hedgerow removal notice" }`
+**Example:** `{ "query": "fredskov fældning" }`
 
 ---
 
 ### `check_hedgerow_rules`
 
-Check hedgerow regulations by action type. Returns notice requirements, exemptions, important hedgerow criteria, and penalties under the Hedgerow Regulations 1997.
+Check Danish hegn regulations by action type. Returns hegnspligt requirements, §3-beskyttelse, randzoner, skovbyggelinje, and hegnssyn rules under Hegnsloven and Naturbeskyttelsesloven.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `action` | string | Yes | Action type (e.g. remove, trim, lay, coppice, replace) |
-| `hedgerow_type` | string | No | Hedgerow classification (e.g. important, standard) |
-| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: GB) |
+| `action` | string | Yes | Action type (e.g. fjernelse, klipning, hegning, randzone, hegnssyn) |
+| `hedgerow_type` | string | No | Hegn type (e.g. levende hegn, §3-areal, strandbeskyttelseslinje) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
 
-**Returns:** Notice requirement (boolean), exemptions, important hedgerow criteria, penalties, regulation reference.
+**Returns:** Notice requirement (boolean), exemptions, §3-criteria, penalties, regulation reference.
 
-**Example:** `{ "action": "remove" }`
+**Example:** `{ "action": "fjernelse" }`
 
 ---
 
 ### `get_felling_licence_rules`
 
-Get tree felling licence requirements by volume, area, or reason. Returns whether a licence is needed, exemptions, application process, and penalties under the Forestry Act 1967.
+Get Danish skovlov felling rules by scenario. Returns whether felling requires permission, exemptions, application process, and penalties under Skovloven.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `volume_m3` | number | No | Volume of timber to fell in cubic metres |
 | `area_ha` | number | No | Area of woodland in hectares |
-| `reason` | string | No | Reason for felling (e.g. dangerous, planning, garden, fruit) |
-| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: GB) |
+| `reason` | string | No | Reason for felling (e.g. nødstildet, rydning, skovrejsning) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
 
 **Returns:** Licence assessment (if volume provided), matching rules with licence requirement, thresholds, exemptions, application process, penalties.
 
-**Example:** `{ "volume_m3": 8 }` -- returns assessment that licence is required (>5 m3/quarter)
+**Example:** `{ "reason": "nødstildet" }` — returns rules for emergency felling of dangerous trees
 
 ---
 
 ### `check_sssi_consent`
 
-Check whether an activity on a Site of Special Scientific Interest requires Natural England consent. Returns process, typical conditions, and penalties.
+Check whether an activity on a §3-beskyttet naturtype requires dispensation from the kommune. Returns process, typical conditions, and penalties under Naturbeskyttelsesloven §3.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `activity` | string | Yes | Proposed activity (e.g. grazing, drainage, fertiliser, planting, burning, construction) |
-| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: GB) |
+| `activity` | string | Yes | Proposed activity (e.g. dræning, dyrkning, gødskning, pesticider, anlæg, afbrænding) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
 
 **Returns:** Consent required (boolean), process (how to apply), typical conditions, penalties.
 
-**Example:** `{ "activity": "fertiliser" }`
+**Example:** `{ "activity": "dræning" }`
 
 ---
 
 ### `get_rights_of_way_rules`
 
-Get public rights of way obligations by path type and issue. Returns minimum widths, cropping rules, reinstatement deadlines, and obstruction liability.
+Get Danish adgangsret (right of access) rules by type and issue. Returns access rights for private skove, strandbredder, overdrev, offentlige stier, ridning, and hunde båndpligt.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `path_type` | string | No | Path type (footpath, bridleway, restricted_byway, byway) |
-| `issue` | string | No | Issue type (e.g. width, crops, ploughing, obstruction, gates, stiles) |
-| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: GB) |
+| `path_type` | string | No | Access type (skov, strand, overdrev, sti, ridning, hund) |
+| `issue` | string | No | Issue type (e.g. adgang, hund, camping, cykling, ridning) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
 
-**Returns:** Path type, obligation, minimum width (metres), cropping rules, reinstatement deadline, obstruction liability.
+**Returns:** Access type, obligation, minimum width (metres), conditions, reinstatement requirements, obstruction liability.
 
-**Example:** `{ "path_type": "footpath" }` -- returns 1m field-edge / 1.5m cross-field minimum, 14-day reinstatement
+**Example:** `{ "path_type": "skov" }` — returns public access rights for private woodlands
 
 ---
 
 ### `get_common_land_rules`
 
-Get rules for activities on common land. Returns consent requirements and responsible authority under the Commons Act 2006.
+Get Danish rules for overdrev and fællesarealer. Returns §3 protection rules, consent requirements, and responsible authority under Naturbeskyttelsesloven.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `activity` | string | No | Proposed activity (e.g. fencing, building, vehicles) |
-| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: GB) |
+| `activity` | string | No | Proposed activity (e.g. dyrkning, hegning, afgræsning, adgang) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
 
 **Returns:** Activity, consent required (boolean), consent authority, process.
 
-**Example:** `{ "activity": "fencing" }`
+**Example:** `{ "activity": "afgræsning" }`
 
 ---
 
 ### `get_planting_guidance`
 
-Get woodland planting guidance including grants (EWCO), EIA screening thresholds, ancient woodland buffers, and species recommendations.
+Get Danish skovrejsning guidance including tilskud (grants), VVM-screening thresholds, and species recommendations under Skovloven and Skovtilskudsordningen.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `tree_type` | string | No | Species group (e.g. broadleaf, conifer, mixed) |
-| `purpose` | string | No | Planting purpose (e.g. woodland creation, agroforestry, riparian, community) |
-| `area_ha` | number | No | Planned planting area in hectares (triggers EIA note if >5ha) |
-| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: GB) |
+| `tree_type` | string | No | Species group (e.g. løvskov, nåleskov, blandet, brede/elle) |
+| `purpose` | string | No | Planting purpose (e.g. skovrejsning, vandløb, agroforstbrug) |
+| `area_ha` | number | No | Planned planting area in hectares (VVM-screening required if >20ha) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
 
-**Returns:** Purpose, species group, minimum area, EIA screening required, grant available (with rates), ancient woodland buffer distance.
+**Returns:** Purpose, species group, minimum area, VVM screening required, grant available (with rates), buffer requirements.
 
-**Example:** `{ "tree_type": "broadleaf", "purpose": "woodland creation", "area_ha": 10 }`
+**Example:** `{ "tree_type": "løvskov", "purpose": "skovrejsning", "area_ha": 5 }`
+
+---
+
+### `get_tpo_rules`
+
+Get Danish rules for fredede træer, skovbyggelinjen, and fortidsmindebeskyttelseslinjen. Returns dispensation requirements, exemptions, process, and penalties.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `scenario` | string | No | Scenario (e.g. fredet træ, skovbyggelinje, fortidsminde, jordarbejde) |
+| `jurisdiction` | string | No | ISO 3166-1 alpha-2 code (default: DK) |
+
+**Returns:** Scenario, consent required (boolean), consent authority, exemptions, process, penalties, regulation reference.
+
+**Example:** `{ "scenario": "skovbyggelinje" }`

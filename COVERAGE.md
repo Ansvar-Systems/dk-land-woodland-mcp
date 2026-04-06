@@ -2,36 +2,37 @@
 
 ## What Is Included
 
-- **Hedgerow regulations** from the Hedgerow Regulations 1997: removal notices, 42-day notice period, important hedgerow criteria, exemptions, cross-compliance buffer requirements, penalties
-- **Tree felling licence rules** from the Forestry Act 1967: 5 m3/quarter threshold, exemptions (fruit, garden, dangerous, TPO, planning), application process, penalties
-- **SSSI operations** from the Wildlife and Countryside Act 1981: 9 operation types requiring Natural England consent, 28-day process, conditions, penalties
-- **Public rights of way** from the Highways Act 1980 and CRoW Act 2000: footpath, bridleway, restricted byway, BOAT minimum widths, reinstatement deadlines, cropping rules, obstruction liability
-- **Common land** from the Commons Act 2006: fencing, building, vehicles, public access, agricultural works consent requirements
-- **Woodland planting guidance** from Forestry Commission EWCO: broadleaf and conifer grant rates, EIA screening thresholds, ancient woodland buffers, agroforestry, riparian, community woodland
+- **Hegn (hedgerow) regulations** from Lov om hegn (LBK nr 851 af 17/08/2011): hegnspligt, fjernelse, hegnssyn, randzoner langs vandløb, §3-beskyttelse, skovbyggelinje, strandbeskyttelseslinje
+- **Felling rules (Skovloven)** from Skovloven (LBK nr 315 af 28/03/2019): fredskov, rydning, skovdyrkningspligt, nødstildede træer, skovrejsning, juletræsplantager
+- **§3 nature protection** from Naturbeskyttelsesloven (LBK nr 1392 af 04/10/2022): dispensation for dræning, dyrkning, gødskning, pesticider, anlægsarbejde, afbrænding, tilplantning i beskyttede naturtyper (ferske enge, moser, heder, overdrev, strandenge)
+- **Adgangsret (rights of access)** from Naturbeskyttelsesloven §14-§26: adgang til private skove, strandbredder, overdrev og heder, offentlige stier, ridning, hunde båndpligt, campering og bål
+- **Overdrev og fællesarealer** from Naturbeskyttelsesloven §3 og §24: dyrkning, hegning, afgræsning, offentlig adgang, ændring af arealanvendelse
+- **Skovrejsning (woodland planting)** from Skovloven §3-§6 og Skovtilskudsordningen: løvskov, nåleskov, vandløbsnær skov, agroforstbrug, naturlig tilgroning, VVM-screening
+- **Fredede træer og beskyttelseslinjer** from Naturbeskyttelsesloven §17-§18: kommunalt fredede træer, skovbyggelinje (300m), fortidsmindebeskyttelseslinje (100m), jordarbejde nær fortidsminder
 
 ## Jurisdictions
 
 | Code | Country | Status |
 |------|---------|--------|
-| GB | Great Britain | Supported |
+| DK | Denmark | Supported |
 
 ## What Is NOT Included
 
-- **Devolved administration specifics** -- Scotland (Scottish Forestry) and Wales (NRW) have separate arrangements for some of these topics
-- **Northern Ireland** -- separate legislation (no Hedgerow Regulations equivalent)
-- **Tree Preservation Orders** -- mentioned as a felling exemption, but TPO-specific rules are a local authority matter
-- **Planning permission** -- referenced where relevant, but planning law itself is not covered
-- **Environmental permits** -- pollution, waste, and water abstraction licences are separate regimes
-- **Countryside Stewardship scheme details** -- only EWCO woodland creation rates are included
-- **SFI payment rates** -- agroforestry options referenced but rates not included
-- **Ancient woodland inventory** -- the 15m buffer rule is included, but mapping of ancient woodland sites is not
+- **Kommuneplanrammer og lokalplaner** — local zoning decisions vary by kommune
+- **Natura 2000-plejeplaner** — site-specific Natura 2000 management plans are not included
+- **Landbrugspligt og omlægning** — agricultural obligation rules are not fully covered
+- **Fredningskendelser** — specific land and nature conservation orders (fredningskendelser) vary by site
+- **Vandplanernes indsatsprogrammer** — water framework directive implementation plans not included
+- **Strandbeskyttelse details** — Kystdirektoratets specific exemption practice varies
+- **Natura 2000-tilskud rates** — payment rates change annually; current data is indicative only
+- **Kommunale regulativer** — local municipal regulations for watercourses (vandløbsregulativer) are not included
 
 ## Known Gaps
 
-1. Grant rates change annually -- current data reflects 2025-2026 EWCO rates
-2. SSSI operations lists are site-specific -- the data shows common operations, but each SSSI notification lists the specific operations requiring consent for that site
-3. Cross-compliance rules are being replaced by delinked payments -- GAEC references may become outdated
-4. Local planning authority variations are not captured -- hedgerow retention decisions vary by LPA
+1. Tilskudssatser ændres årligt — nuværende data er vejledende og kan være forældet
+2. §3-registreringen er vejledende — den faktiske naturtilstand afgør beskyttelsen, ikke blot registreringen
+3. Kommunale forskelle — dispensationspraksis varierer fra kommune til kommune
+4. Fredningskendelser er site-specifikke — kontakt kommunen eller Miljøstyrelsen for konkrete arealer
 
 ## Data Freshness
 

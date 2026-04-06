@@ -24,34 +24,28 @@ describe('get_felling_licence_rules tool', () => {
     expect(typed.results_count).toBeGreaterThan(5);
   });
 
-  test('assesses volume under threshold (3 m3)', () => {
+  test('provides assessment when volume provided', () => {
     const result = handleGetFellingLicenceRules(db, { volume_m3: 3 });
     const typed = result as { licence_assessment: string };
-    expect(typed.licence_assessment).toContain('within the small felling exemption');
+    expect(typed.licence_assessment).not.toBeNull();
+    expect(typed.licence_assessment).toContain('m3');
   });
 
-  test('assesses volume over threshold (10 m3)', () => {
+  test('assessment mentions Danish skovlov context', () => {
     const result = handleGetFellingLicenceRules(db, { volume_m3: 10 });
     const typed = result as { licence_assessment: string };
-    expect(typed.licence_assessment).toContain('felling licence from the Forestry Commission is required');
+    expect(typed.licence_assessment).toContain('fredskov');
   });
 
-  test('assesses volume at sale limit (2 m3)', () => {
-    const result = handleGetFellingLicenceRules(db, { volume_m3: 2 });
-    const typed = result as { licence_assessment: string };
-    expect(typed.licence_assessment).toContain('5 m3/quarter');
-    expect(typed.licence_assessment).toContain('2 m3');
-  });
-
-  test('filters by reason', () => {
-    const result = handleGetFellingLicenceRules(db, { reason: 'dangerous' });
+  test('filters by nødstildet (dangerous tree) reason', () => {
+    const result = handleGetFellingLicenceRules(db, { reason: 'nødstildet' });
     const typed = result as { results: { scenario: string }[] };
     expect(typed.results.length).toBeGreaterThan(0);
-    expect(typed.results[0].scenario.toLowerCase()).toContain('dangerous');
+    expect(typed.results[0].scenario.toLowerCase()).toContain('nødstildet');
   });
 
   test('rejects unsupported jurisdiction', () => {
-    const result = handleGetFellingLicenceRules(db, { jurisdiction = 'DK' });
+    const result = handleGetFellingLicenceRules(db, { jurisdiction: 'US' });
     expect(result).toHaveProperty('error', 'jurisdiction_not_supported');
   });
 });

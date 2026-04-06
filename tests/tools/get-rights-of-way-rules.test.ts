@@ -18,35 +18,34 @@ describe('get_rights_of_way_rules tool', () => {
     if (existsSync(TEST_DB)) unlinkSync(TEST_DB);
   });
 
-  test('returns all path types when no filter', () => {
+  test('returns all access types when no filter', () => {
     const result = handleGetRightsOfWayRules(db, {});
     const typed = result as { results_count: number };
     expect(typed.results_count).toBeGreaterThan(3);
   });
 
-  test('filters by footpath type', () => {
-    const result = handleGetRightsOfWayRules(db, { path_type: 'Footpath' });
+  test('filters by skov (private woodland) type', () => {
+    const result = handleGetRightsOfWayRules(db, { path_type: 'Private skove' });
     const typed = result as { results: { path_type: string; min_width_m: number }[] };
-    expect(typed.results.length).toBeGreaterThan(0);
-    expect(typed.results[0].min_width_m).toBe(1.0);
-  });
-
-  test('bridleway has correct minimum width', () => {
-    const result = handleGetRightsOfWayRules(db, { path_type: 'Bridleway' });
-    const typed = result as { results: { min_width_m: number }[] };
     expect(typed.results.length).toBeGreaterThan(0);
     expect(typed.results[0].min_width_m).toBe(2.0);
   });
 
-  test('reinstatement deadline is present', () => {
-    const result = handleGetRightsOfWayRules(db, { path_type: 'Footpath' });
-    const typed = result as { results: { reinstatement_deadline: string }[] };
-    expect(typed.results[0].reinstatement_deadline).toContain('14 days');
+  test('filters by strand (beach) type', () => {
+    const result = handleGetRightsOfWayRules(db, { path_type: 'Strandbredder' });
+    const typed = result as { results: { path_type: string }[] };
+    expect(typed.results.length).toBeGreaterThan(0);
   });
 
-  test('filters by issue keyword', () => {
-    const result = handleGetRightsOfWayRules(db, { issue: 'obstruct' });
+  test('obstruction liability data is present', () => {
+    const result = handleGetRightsOfWayRules(db, { path_type: 'Private skove' });
     const typed = result as { results: { obstruction_liability: string }[] };
+    expect(typed.results[0].obstruction_liability).toBeTruthy();
+  });
+
+  test('filters by issue keyword (hund/dog)', () => {
+    const result = handleGetRightsOfWayRules(db, { issue: 'hund' });
+    const typed = result as { results: { path_type: string }[] };
     expect(typed.results.length).toBeGreaterThan(0);
   });
 

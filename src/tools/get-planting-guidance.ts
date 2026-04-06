@@ -39,10 +39,10 @@ export function handleGetPlantingGuidance(db: Database, args: PlantingArgs) {
     jurisdiction: string;
   }>(sql, params);
 
-  // Add EIA flag if area is provided
+  // Add VVM flag if area is provided (Danish threshold: 20ha)
   let eia_note: string | null = null;
-  if (args.area_ha !== undefined && args.area_ha > 5) {
-    eia_note = `At ${args.area_ha} ha, Environmental Impact Assessment screening is likely required under the EIA (Forestry) Regulations 1999, especially on semi-natural habitat or sensitive areas.`;
+  if (args.area_ha !== undefined && args.area_ha > 20) {
+    eia_note = `Ved ${args.area_ha} ha kræves VVM-screening (Vurdering af Virkninger på Miljøet) i henhold til Miljøvurderingsloven og Skovloven §3. Kontakt Naturstyrelsen for screening.`;
   }
 
   return {
@@ -62,6 +62,6 @@ export function handleGetPlantingGuidance(db: Database, args: PlantingArgs) {
       grant_available: g.grant_available,
       ancient_woodland_buffer_m: g.ancient_woodland_buffer_m,
     })),
-    _meta: buildMeta({ source_url: 'https://www.gov.uk/guidance/england-woodland-creation-offer' }),
+    _meta: buildMeta({ source_url: 'https://www.retsinformation.dk/eli/lta/2019/315' }),
   };
 }
