@@ -1,25 +1,25 @@
 {
   "mcp_name": "Danish Land and Woodland MCP",
   "jurisdiction": "DK",
-  "build_date": "2026-04-05",
+  "build_date": "2026-04-06",
   "status": "populated",
   "record_counts": {
-    "protected_habitats": 10,
-    "forest_rules": 9,
-    "nature_conservation": 6,
-    "farmland_obligations": 8,
-    "land_consolidation": 6,
+    "hedgerow_rules": 7,
+    "felling_rules": 7,
+    "sssi_operations": 8,
+    "rights_of_way": 7,
+    "common_land_rules": 5,
     "planting_guidance": 5,
-    "tree_protection": 4,
-    "fts_entries": 48
+    "tpo_rules": 4,
+    "fts_entries": 37
   },
   "data_sources": [
     "Naturstyrelsen",
-    "Miljoestyrelsen",
+    "Miljøstyrelsen",
     "Landbrugsstyrelsen",
     "Plan- og Landdistriktsstyrelsen",
     "Kystdirektoratet",
-    "Miljoeministeriet"
+    "retsinformation.dk"
   ],
   "disclaimer": "Data er vejledende. Kontakt din kommune for konkrete arealbeskyttelser. §3-registreringen kan ses paa miljoeportalen.dk."
 }

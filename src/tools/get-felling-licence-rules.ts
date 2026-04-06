@@ -36,16 +36,10 @@ export function handleGetFellingLicenceRules(db: Database, args: FellingArgs) {
     jurisdiction: string;
   }>(sql, params);
 
-  // If volume provided, flag whether licence is needed
+  // If volume provided, provide context (Danish rules do not have a simple volume threshold like UK)
   let licence_assessment: string | null = null;
   if (args.volume_m3 !== undefined) {
-    if (args.volume_m3 <= 5) {
-      licence_assessment = args.volume_m3 <= 2
-        ? `${args.volume_m3} m3 is within the small felling exemption (up to 5 m3/quarter, max 2 m3 for sale). No felling licence needed.`
-        : `${args.volume_m3} m3 is within the small felling exemption (up to 5 m3/quarter) but exceeds the 2 m3 sale limit. Licence not needed if timber is not sold.`;
-    } else {
-      licence_assessment = `${args.volume_m3} m3 exceeds the 5 m3/quarter exemption. A felling licence from the Forestry Commission is required.`;
-    }
+    licence_assessment = `${args.volume_m3} m3: I Danmark gælder ingen simpel volumentærskel. Tilladelse til fældning afhænger af, om træet er i fredskov (Skovloven §8). Tjek om arealet er registreret fredskov. Fældning af enkelttstående træer uden for fredskov kræver normalt ikke tilladelse.`;
   }
 
   return {
@@ -67,6 +61,6 @@ export function handleGetFellingLicenceRules(db: Database, args: FellingArgs) {
       penalties: r.penalties,
       regulation_ref: r.regulation_ref,
     })),
-    _meta: buildMeta({ source_url: 'https://www.legislation.gov.uk/ukpga/1967/10/contents' }),
+    _meta: buildMeta({ source_url: 'https://www.retsinformation.dk/eli/lta/2019/315' }),
   };
 }

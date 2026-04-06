@@ -90,13 +90,13 @@ const TOOLS = [
   },
   {
     name: 'search_land_rules',
-    description: 'Full-text search across all land and woodland management rules. Use for broad queries about hedgerows, felling, SSSI, rights of way, common land, or planting.',
+    description: 'Full-text search across all Danish land and woodland management rules. Use for broad queries about hegn, fredskov, §3-natur, adgangsret, overdrev, or skovrejsning.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        query: { type: 'string', description: 'Free-text search query' },
+        query: { type: 'string', description: 'Free-text search query (Danish or English)' },
         topic: { type: 'string', description: 'Filter by topic (hedgerow, felling, sssi, rights_of_way, common_land, planting)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
         limit: { type: 'number', description: 'Max results (default: 20, max: 50)' },
       },
       required: ['query'],
@@ -104,86 +104,86 @@ const TOOLS = [
   },
   {
     name: 'check_hedgerow_rules',
-    description: 'Check hedgerow regulations by action type. Returns notice requirements, exemptions, important hedgerow criteria, and penalties under the Hedgerow Regulations 1997.',
+    description: 'Check Danish hegn regulations by action type. Returns hegnspligt requirements, §3-beskyttelse, randzoner, skovbyggelinje, and hegnssyn rules under Hegnsloven and Naturbeskyttelsesloven.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        action: { type: 'string', description: 'Action type (e.g. remove, trim, lay, coppice, replace)' },
-        hedgerow_type: { type: 'string', description: 'Hedgerow classification (e.g. important, standard)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        action: { type: 'string', description: 'Action type (e.g. fjernelse, klipning, hegning, randzone, hegnssyn)' },
+        hedgerow_type: { type: 'string', description: 'Hegn type (e.g. levende hegn, §3-areal, strandbeskyttelseslinje)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
       },
       required: ['action'],
     },
   },
   {
     name: 'get_felling_licence_rules',
-    description: 'Get tree felling licence requirements by volume, area, or reason. Returns whether a licence is needed, exemptions, application process, and penalties under the Forestry Act 1967.',
+    description: 'Get Danish skovlov felling rules by scenario. Returns whether felling requires permission, exemptions, application process, and penalties under Skovloven.',
     inputSchema: {
       type: 'object' as const,
       properties: {
         volume_m3: { type: 'number', description: 'Volume of timber to fell in cubic metres' },
         area_ha: { type: 'number', description: 'Area of woodland in hectares' },
-        reason: { type: 'string', description: 'Reason for felling (e.g. dangerous, planning, garden, fruit)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        reason: { type: 'string', description: 'Reason for felling (e.g. nødstildet, rydning, skovrejsning, juletræer)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
       },
     },
   },
   {
     name: 'check_sssi_consent',
-    description: 'Check whether an activity on a Site of Special Scientific Interest requires Natural England consent. Returns process, typical conditions, and penalties.',
+    description: 'Check whether an activity on a §3-beskyttet naturtype requires dispensation from the kommune. Returns process, typical conditions, and penalties under Naturbeskyttelsesloven §3.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        activity: { type: 'string', description: 'Proposed activity (e.g. grazing, drainage, fertiliser, planting, burning, construction)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        activity: { type: 'string', description: 'Proposed activity (e.g. dræning, dyrkning, gødskning, pesticider, anlæg, afbrænding, tilplantning)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
       },
       required: ['activity'],
     },
   },
   {
     name: 'get_rights_of_way_rules',
-    description: 'Get public rights of way obligations by path type and issue. Returns minimum widths, cropping rules, reinstatement deadlines, and obstruction liability.',
+    description: 'Get Danish adgangsret (right of access) rules by type and issue. Returns access rights for private skove, strandbredder, overdrev, offentlige stier, ridning, and hunde båndpligt.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        path_type: { type: 'string', description: 'Path type (footpath, bridleway, restricted_byway, byway)' },
-        issue: { type: 'string', description: 'Issue type (e.g. width, crops, ploughing, obstruction, gates, stiles)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        path_type: { type: 'string', description: 'Access type (skov, strand, overdrev, sti, ridning, hund)' },
+        issue: { type: 'string', description: 'Issue type (e.g. adgang, hund, camping, cykling, ridning, spærring)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
       },
     },
   },
   {
     name: 'get_common_land_rules',
-    description: 'Get rules for activities on common land. Returns consent requirements and responsible authority under the Commons Act 2006.',
+    description: 'Get Danish rules for overdrev and fællesarealer. Returns §3 protection rules, consent requirements, and responsible authority under Naturbeskyttelsesloven.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        activity: { type: 'string', description: 'Proposed activity (e.g. fencing, building, vehicles)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        activity: { type: 'string', description: 'Proposed activity (e.g. dyrkning, hegning, afgræsning, adgang, omlægning)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
       },
     },
   },
   {
     name: 'get_planting_guidance',
-    description: 'Get woodland planting guidance including grants (EWCO), EIA screening thresholds, ancient woodland buffers, and species recommendations.',
+    description: 'Get Danish skovrejsning guidance including tilskud (grants), VVM-screening thresholds, and species recommendations under Skovloven and Skovtilskudsordningen.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        tree_type: { type: 'string', description: 'Species group (e.g. broadleaf, conifer, mixed)' },
-        purpose: { type: 'string', description: 'Planting purpose (e.g. woodland creation, agroforestry, riparian, community)' },
-        area_ha: { type: 'number', description: 'Planned planting area in hectares (triggers EIA assessment if >5ha)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        tree_type: { type: 'string', description: 'Species group (e.g. løvskov, nåleskov, blandet, brede/elle)' },
+        purpose: { type: 'string', description: 'Planting purpose (e.g. skovrejsning, vandløb, agroforstbrug, naturlig tilgroning)' },
+        area_ha: { type: 'number', description: 'Planned planting area in hectares (VVM-screening required if >20ha)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
       },
     },
   },
   {
     name: 'get_tpo_rules',
-    description: 'Get Tree Preservation Order rules. Returns consent requirements, exemptions, process, and penalties under TCPA 1990 Part VIII.',
+    description: 'Get Danish rules for fredede træer, skovbyggelinjen, and fortidsmindebeskyttelseslinjen. Returns dispensation requirements, exemptions, process, and penalties.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        scenario: { type: 'string', description: 'Scenario (e.g. works, dead tree, conservation area, penalty)' },
-        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: GB)' },
+        scenario: { type: 'string', description: 'Scenario (e.g. fredet træ, skovbyggelinje, fortidsminde, jordarbejde)' },
+        jurisdiction: { type: 'string', description: 'ISO 3166-1 alpha-2 code (default: DK)' },
       },
     },
   },

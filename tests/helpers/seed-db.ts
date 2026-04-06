@@ -3,21 +3,72 @@ import { createDatabase, type Database } from '../../src/db.js';
 export function createSeededDatabase(dbPath: string): Database {
   const db = createDatabase(dbPath);
 
-  // --- Hedgerow Rules ---
+  // --- Hegn (Hedgerow) Rules ---
+  // Source: Lov om hegn (LBK nr 851 af 17/08/2011); Naturbeskyttelsesloven §3
   const hedgerowData: [string, number, string | null, string | null, string | null, string | null, string][] = [
-    ['Remove hedgerow', 1, 'Under 20m for new field access gate; making opening required by planning permission; required by DEFRA for plant health', 'Assessed under Schedule 1 of Hedgerow Regulations 1997: over 30 years old and meets wildlife, historical, or landscape criteria', 'Up to 25,000 GBP fine for unlawful removal plus remediation order requiring replanting', 'Hedgerow Regulations 1997 s.2-s.5', 'GB'],
-    ['Remove hedgerow (important)', 1, 'Planning permission for development; DEFRA plant health order', 'Over 30 years old plus meets at least one Schedule 1 criterion: supports protected species, recorded in parish boundary records, includes archaeological features, or marks a pre-1850 boundary', 'Up to 25,000 GBP fine plus remediation order', 'Hedgerow Regulations 1997 Schedule 1', 'GB'],
-    ['Remove hedgerow (notice)', 1, '42-day notice to local planning authority required before removal. LPA may issue hedgerow retention notice within 42 days if hedgerow is important.', null, 'Removal without notice: up to 25,000 GBP fine', 'Hedgerow Regulations 1997 s.2', 'GB'],
-    ['Trim hedgerow', 0, null, null, 'Cross-compliance breach if trimmed during bird nesting season (1 March to 31 August) under GAEC 7a', 'Cross-compliance GAEC 7a', 'GB'],
-    ['Lay hedgerow', 0, 'Traditional management practice; no notice needed. Best done October to March.', null, null, 'Good practice guidance', 'GB'],
-    ['Coppice hedgerow', 0, 'Traditional management practice; no notice needed.', null, null, 'Good practice guidance', 'GB'],
-    ['Replace hedgerow', 0, 'If removed with permission, replacement planting may be conditioned by local planning authority', null, null, 'Hedgerow Regulations 1997 s.5', 'GB'],
-    ['Hedgerow buffer width', 0, 'Cross-compliance requires 2m buffer strip from centre of hedge. Cannot cultivate or apply pesticides/fertiliser within buffer.', null, 'Cross-compliance breach penalties apply', 'Cross-compliance GAEC 7a', 'GB'],
-    ['Important Hedgerow Schedule 1 criteria', 1, null, 'A hedgerow is classified as important under Schedule 1 of the Hedgerow Regulations 1997 if it is at least 30 years old AND meets at least one of: (a) marks a pre-1850 parish or township boundary, (b) contains a protected species listed in Schedule 5 of the Wildlife and Countryside Act 1981 or Schedule 8 (plants), (c) contains 7 or more woody species in a 30-metre section (6 in northern England), (d) has associated features such as a bank, ditch, wall or mature standard trees AND at least 4 woody species per 30m, (e) is part of a pre-1845 field system visible on tithe or enclosure maps.', 'LPA hedgerow retention notice if criteria met. Up to 25,000 GBP fine for unlawful removal plus replanting order.', 'Hedgerow Regulations 1997 Schedule 1', 'GB'],
-    ['Hedgerow planting grants', 0, 'Countryside Stewardship option HB1: planting new hedgerow. Grant rate approximately 11.60 GBP per metre. Additional supplements for species-rich hedges and associated features (bank, ditch). ELS/HLS closed to new applicants; CS is current scheme.', null, null, 'Countryside Stewardship HB1', 'GB'],
-    ['Species-rich hedge definition', 0, 'A species-rich hedgerow contains 5 or more native woody species per 30-metre section. Native species include hawthorn, blackthorn, hazel, field maple, dogwood, spindle, guelder rose, dog rose, holly, oak, ash, elm, wild privet. Counted during dormant season by woody stem identification. The 7-species threshold applies specifically to the Important Hedgerow criteria under Schedule 1.', null, null, 'Hedgerow Regulations 1997 Schedule 1; Countryside Stewardship guidance', 'GB'],
-    ['Hedge cutting timing restriction', 0, null, null, 'Cross-compliance breach if hedgerows are cut or trimmed between 1 March and 31 August (bird nesting season). Breach of GAEC 7a results in Basic Payment Scheme penalties (1-5% reduction for negligence, up to 100% for intentional). Exemption: roadside hedges for highway safety may be cut at any time.', 'Cross-compliance GAEC 7a; The Standards for Good Agricultural and Environmental Condition and Statutory Management Requirements (England) Regulations', 'GB'],
-    ['Devon hedgebanks', 0, 'Devon hedgebanks are earth and stone structures (not planted hedges) with vegetation on top. Traditional heritage management involves periodic face-trimming and bank repair. Removal requires same notice under Hedgerow Regulations 1997. Stewardship of Earth Bank option under CS. Distinct from planted hedgerows -- management technique involves stone facing repair and re-turfing, not laying or coppicing.', null, null, 'Hedgerow Regulations 1997; Devon County Council hedgebank guidance', 'GB'],
+    [
+      'Fjernelse af levende hegn mod nabo (hegnspligt)',
+      1,
+      'Hegnspligten bortfalder, hvis begge naboer er enige om, at hegnet ikke er nødvendigt. Tekniske undtagelser: hegn kan fjernes midlertidigt ved byggearbejde med naboens accept.',
+      'Levende hegn langs ejendomsgrænserne er reguleret af Hegnsloven. Fjernelse kræver som udgangspunkt naboens samtykke. Hegnssyn kan pålægge genoprettelse hvis hegnet er fjernet ulovligt.',
+      'Erstatningspligt over for nabo. Hegnssyn kan pålægge genplantning for ejerens regning. Bøde ved overtrædelse af påbud.',
+      'Lov om hegn §1, §9, §28',
+      'DK',
+    ],
+    [
+      'Klipning og vedligeholdelse af levende hegn',
+      0,
+      'Klipning er tilladt hele året, men god landbrugsskik anbefaler at undgå fuglenes ynglesæson (15. marts til 15. august). Visse kommuner har lokale restriktioner.',
+      null,
+      'Ingen bøde for klipning i ynglesæsonen i sig selv, men Naturbeskyttelsesloven §29 beskytter fugle og reder. Gødnings- og pesticidbegrænsninger gælder inden for randzoner.',
+      'Naturbeskyttelsesloven §29; God landbrugspraksis',
+      'DK',
+    ],
+    [
+      'Hegn og indgreb i §3-beskyttede naturtyper',
+      1,
+      'Dispensation kan søges hos kommunen i særlige tilfælde. Dispensation gives sjældent til permanente anlæg i beskyttede naturtyper.',
+      'Hegn eller andre indgreb i §3-beskyttede naturtyper (ferske enge, moser, heder, overdrev, strandenge, søer) kræver dispensation fra kommunen. Beskyttelsen er absolut med begrænsede undtagelser.',
+      'Overtrædelse af §3-beskyttelse: bøde op til 10.000 DKK og påbud om retablering for ejerens regning. Kommunen kan anlægge sag efter Miljøbeskyttelsesloven.',
+      'Naturbeskyttelsesloven §3, §65, §66',
+      'DK',
+    ],
+    [
+      'Hegn langs skov (skovbyggelinje)',
+      0,
+      'Byggeri og anlæg inden for skovbyggelinjen kræver landzonetilladelse eller dispensation. Hegn til afgræsning anses normalt ikke som byggeri, men faste konstruktioner kan kræve tilladelse.',
+      null,
+      null,
+      'Naturbeskyttelsesloven §17 (skovbyggelinje 300m); Planloven',
+      'DK',
+    ],
+    [
+      'Hegn i strandbeskyttelseslinjen',
+      1,
+      'Midlertidige hegn til dyrehold kan tillades i kortere perioder. Landbrugsmæssige hegn vurderes konkret.',
+      'Faste hegn inden for strandbeskyttelseslinjen (300m fra kysten) kræver dispensation fra Kystdirektoratet. Strandbeskyttelseslinjens formål er at sikre fri adgang til kysten.',
+      'Bøde og påbud om fjernelse for ejerens regning. Kystdirektoratet kan anlægge sag.',
+      'Naturbeskyttelsesloven §15 (strandbeskyttelseslinje)',
+      'DK',
+    ],
+    [
+      'Hegnssyn (nabotvist om hegn)',
+      1,
+      null,
+      'Hegnssyn foretages af lokale hegnssyn-mænd (udpeget af kommunen) ved nabotvist. Hegnssyn kan pålægge oprettelse, vedligeholdelse eller fjernelse af hegn. Afgørelse er bindende og kan ankes til Taksationskommissionen.',
+      'Manglende efterlevelse af hegnssyn-afgørelse: bøde og kommunen kan lade arbejdet udføre for ejerens regning.',
+      'Lov om hegn §28-§44',
+      'DK',
+    ],
+    [
+      'Randzoner langs vandløb og søer (hegn forbudt)',
+      1,
+      'Frivillig randzoneordning med tilskud. Randzoner kan kombineres med adgangsret.',
+      'Langs vandløb og søer over 100 m2 skal der holdes en obligatorisk randzone på 2 meter fra øverste kant af vandløbet. Ingen sprøjtning, gødskning eller jordbehandling. Hegn langs vandløbskanten er i praksis ikke tilladt inden for randzonen.',
+      'Bøde ved overtrædelse af randzonebekendtgørelsen. Landbrugsstyrelsen fører tilsyn.',
+      'Naturbeskyttelsesloven §69a; Randzonebekendtgørelsen (BEK nr 96 af 27/01/2017)',
+      'DK',
+    ],
   ];
 
   for (const [action, notice, exemptions, criteria, penalties, ref, jur] of hedgerowData) {
@@ -28,23 +79,86 @@ export function createSeededDatabase(dbPath: string): Database {
     );
   }
 
-  // --- Felling Rules ---
+  // --- Felling Rules (Skovloven) ---
+  // Source: Skovloven (LBK nr 315 af 28/03/2019)
   const fellingData: [string, number, number | null, number | null, string | null, string | null, string | null, string | null, string][] = [
-    ['Standard felling', 1, 5, null, null, 'Apply to Forestry Commission. 8-week determination period. Replanting conditions normally attached. Licence valid for up to 5 years.', 'Up to 2,500 GBP or twice the value of the trees, whichever is greater', 'Forestry Act 1967 s.9', 'GB'],
-    ['Small exemption (no licence)', 0, 5, null, 'Up to 5 cubic metres per calendar quarter without licence. Maximum 2 cubic metres may be sold.', null, null, 'Forestry Act 1967 s.9(2)', 'GB'],
-    ['TPO trees', 1, null, null, 'Separate consent from local planning authority, not Forestry Commission. TPO makes it an offence to cut down, top, lop, uproot, wilfully damage or destroy a protected tree.', 'Apply to local planning authority under Town and Country Planning Act 1990.', 'Unlimited fine in Crown Court', 'Town and Country Planning Act 1990 s.210', 'GB'],
-    ['Planning permission trees', 0, null, null, 'Trees covered by an existing planning consent do not need a separate felling licence.', null, null, 'Forestry Act 1967 s.9(4)(a)', 'GB'],
-    ['Dangerous trees (emergency)', 0, null, null, 'Emergency felling exempt from licence. Must notify Forestry Commission within 5 working days. Replanting obligation still applies.', null, null, 'Forestry Act 1967 s.9(4)(b)', 'GB'],
-    ['Fruit trees', 0, null, null, 'Orchard and fruit trees exempt from felling licence requirements.', null, null, 'Forestry Act 1967 s.9(3)', 'GB'],
-    ['Garden trees (under 0.1ha)', 0, null, 0.1, 'Trees in a garden under 0.1 hectares are exempt from felling licence.', null, null, 'Forestry Act 1967 s.9(2)', 'GB'],
-    ['Approved development', 0, null, null, 'Felling required to carry out development authorised by planning permission is exempt.', null, null, 'Forestry Act 1967 s.9(4)(a)', 'GB'],
-    ['Felling application process', 1, null, null, null, 'Apply online via Forestry Commission portal or Form FC1. Include species, volume, area, map. 8-week statutory determination period. Conditions typically include replanting within 2 years with specified species.', null, 'Forestry Act 1967 s.10', 'GB'],
-    ['Felling penalties', 1, null, null, null, null, 'Up to 2,500 GBP per offence or twice value of trees (whichever greater). Court may also order replanting.', 'Forestry Act 1967 s.17', 'GB'],
-    ['Restocking conditions', 1, null, null, 'Most felling licences include restocking conditions requiring replanting within 2 planting seasons (by end of March in the second year after felling). Conditions specify species, density (typically 2,500 stems/ha for broadleaf, 2,500-3,000 for conifer), and minimum establishment rate. Failure to restock: Forestry Commission may serve a restocking notice and ultimately carry out the work and recover costs.', 'Apply to FC for variation if restocking conditions are impractical. Natural regeneration may be accepted as an alternative if approved.', 'Failure to comply with restocking conditions: up to 2,500 GBP fine plus FC may restock at landowner cost', 'Forestry Act 1967 s.12, s.17A', 'GB'],
-    ['Ash dieback felling exemption (Chalara)', 0, null, null, 'Ash trees affected by Chalara (Hymenoscyphus fraxineus) may be felled without a licence if the tree is dead, dying, or dangerous as a result of the disease. Must still notify the Forestry Commission within 5 working days of felling. Standard restocking conditions still apply. Statutory Plant Health Notice may also require felling -- this overrides the need for a felling licence.', null, null, 'Forestry Act 1967 s.9(4)(b); Plant Health (Forestry) Order 2005', 'GB'],
-    ['Veteran and ancient trees', 0, null, null, 'Veteran and ancient trees have no automatic statutory protection (unlike TPOs). However, they carry strong weight in the planning system under the NPPF (National Planning Policy Framework para 180c): "development resulting in the loss or deterioration of irreplaceable habitats (such as ancient woodland and ancient or veteran trees) should be refused, unless there are wholly exceptional reasons and a suitable compensation strategy." The Ancient Tree Inventory (maintained by the Woodland Trust) records known ancient and veteran trees but listing is not a legal protection.', null, null, 'NPPF paragraph 180c; Forestry Commission practice guide on ancient and veteran trees', 'GB'],
-    ['High hedges (evergreen)', 0, null, null, 'Evergreen hedges over 2 metres tall that affect a neighbour may be subject to a complaint under Part 8 of the Anti-social Behaviour Act 2003. This is a planning/neighbour dispute mechanism, NOT the Hedgerow Regulations 1997. The local authority may issue a remedial notice requiring the hedge owner to reduce the height. Appeals to the Planning Inspectorate. Does not apply to deciduous hedges, single trees, or hedges between fields (only domestic/garden boundaries).', 'Affected neighbour complains to local authority (fee applies, typically 300-500 GBP). Council assesses and may issue notice.', 'Failure to comply with remedial notice: local authority may enter land to reduce hedge and recover costs, or prosecution.', 'Anti-social Behaviour Act 2003 Part 8', 'GB'],
-    ['Woodland management plan (FC approved)', 1, null, null, 'A 10-year woodland management plan approved by the Forestry Commission provides a framework for ongoing felling and restocking without needing individual felling licence applications. The plan must cover objectives, inventory, thinning schedule, felling coupes, restocking species, environmental considerations (protected species, ancient woodland), and public access. Plans are required for EWCO and CS woodland options. FC-approved plans also satisfy the UK Forestry Standard (UKFS) sustainable management requirements.', 'Submit to Forestry Commission local woodland officer. Approval typically 8-12 weeks. 10-year validity with 5-year review.', null, 'Forestry Act 1967 s.9; UK Forestry Standard', 'GB'],
+    [
+      'Fældning i fredskov',
+      1,
+      null,
+      null,
+      null,
+      'Skovlovens §8: Fredskov skal bevares som skov. Fældning kræver at arealet tilplantes igen inden for rimelig tid (skovdyrkningspligt). Ansøgning om rydning (permanent omlægning) sendes til Naturstyrelsen.',
+      'Bøde op til 10.000 DKK per overtrædelse. Påbud om genplantning. Omkostninger til retablering kan kræves af ejeren.',
+      'Skovloven §8, §9, §12',
+      'DK',
+    ],
+    [
+      'Rydning af fredskov (permanent)',
+      1,
+      null,
+      null,
+      null,
+      'Permanent rydning af fredskov kræver dispensation fra Naturstyrelsen. Gives kun i særlige tilfælde, f.eks. til vigtige samfundsformål. Alternativt kræves etablering af erstatningsskov af mindst tilsvarende størrelse.',
+      'Ulovlig rydning: bøde og påbud om genplantning med erstatningsskov. Staten kan lade arbejdet udføre for ejerens regning.',
+      'Skovloven §8, §11',
+      'DK',
+    ],
+    [
+      'Fældning af enkeltstående træer uden for fredskov',
+      0,
+      null,
+      null,
+      'Enkelttstående træer og hegn uden for registreret fredskov kræver normalt ikke tilladelse til fældning, medmindre de er: (a) fredet, (b) i §3-beskyttede naturtyper, (c) inden for fortidsmindebeskyttelseslinjen, (d) beskyttet af lokal kommuneplan eller fredning. Tjek med kommunen ved tvivl.',
+      null,
+      null,
+      'Skovloven (gælder kun fredskov); Naturbeskyttelsesloven §3',
+      'DK',
+    ],
+    [
+      'Fældning af nødstedte (farlige) træer i fredskov',
+      0,
+      null,
+      null,
+      'Akut farlige træer i fredskov kan fældes uden forudgående tilladelse, hvis der er fare for persons eller ejendoms sikkerhed. Ejeren skal meddele Naturstyrelsen inden for 5 hverdage. Genplantningspligten gælder stadig.',
+      'Meld til Naturstyrelsen inden for 5 hverdage. Dokumentér at træet var akut farligt.',
+      null,
+      'Skovloven §12; Skovlovens nødregler',
+      'DK',
+    ],
+    [
+      'Skovdyrkningspligt (genplantning efter fældning)',
+      1,
+      null,
+      null,
+      'Arealer, der er fældet i fredskov, skal tilplantes igen senest inden udgangen af den 3. vækstperiode efter fældning. Naturstyrelsen kan fastsætte betingelser for art, tæthed og etablering.',
+      'Ansøg Naturstyrelsen om dispensation fra genplantningspligten, hvis naturlig foryngelse er ønsket. Naturlig foryngelse kan accepteres som alternativ til aktiv plantning efter konkret vurdering.',
+      'Manglende genplantning: bøde og Naturstyrelsen kan lade arbejdet udføre for ejerens regning.',
+      'Skovloven §9, §12',
+      'DK',
+    ],
+    [
+      'Skovrejsning (ny skov)',
+      0,
+      null,
+      20.0,
+      'Skovrejsning på arealer over 20 ha kræver VVM-screening (Vurdering af Virkninger på Miljøet). Skovrejsning er forbudt i visse zoner: strandbeskyttelseslinjen, omkring åbne naturtyper, i positive skovrejsningsområder gives tilskud.',
+      'Ansøg om tilskud til skovrejsning via Landbrugsstyrelsen (Skovtilskudsordningen). Tilskud op til 50% af etableringsomkostningerne. Kræver 20-årig bindingsperiode.',
+      null,
+      'Skovloven §3; VVM-bekendtgørelsen; Skovtilskudsordningen',
+      'DK',
+    ],
+    [
+      'Juletræer og pyntegrøntplantager (ikke fredskov)',
+      0,
+      null,
+      null,
+      'Juletræsplantager og pyntegrøntplantager er ikke fredskov og er ikke underlagt skovlovens regler om skovdyrkningspligt. Fældning kræver ikke tilladelse. Dog gælder §3-beskyttelse, randzoner og andre naturbeskyttelsesregler.',
+      null,
+      null,
+      'Skovloven §2 (undtaget fra skovlovens fredskovsbegreb)',
+      'DK',
+    ],
   ];
 
   for (const [scenario, lic, m3, ha, exemptions, process, penalties, ref, jur] of fellingData) {
@@ -55,21 +169,73 @@ export function createSeededDatabase(dbPath: string): Database {
     );
   }
 
-  // --- SSSI Operations ---
+  // --- §3 Nature Protection (replaces sssi_operations) ---
+  // Source: Naturbeskyttelsesloven §3 og §4 (LBK nr 1392 af 04/10/2022)
   const sssiData: [string, number, string, string | null, string, string][] = [
-    ['Grazing changes', 1, 'Apply to Natural England. 28-day response period. May attach conditions on stocking rates, seasonal restrictions, or grazing methods.', 'Maximum stocking rate limits, seasonal grazing restrictions, species-specific exclusions', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration costs', 'GB'],
-    ['Drainage works', 1, 'Apply to Natural England. 28-day response. Consent rarely given for new drainage on SSSIs. Modification of existing drainage may be permitted with conditions.', 'Water level monitoring, seasonal restrictions, engineering specifications', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration', 'GB'],
-    ['Fertiliser application', 1, 'Apply to Natural England. 28-day response. Usually restricted on nutrient-sensitive habitats (chalk grassland, heathland, wetlands).', 'Application rate limits, exclusion zones around sensitive features, timing restrictions', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration', 'GB'],
-    ['Pesticide application', 1, 'Apply to Natural England. 28-day response. Consent depends on proximity to sensitive habitats and species present.', 'Product restrictions, buffer zones, timing restrictions to protect nesting/breeding', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration', 'GB'],
-    ['Planting trees or shrubs', 1, 'Apply to Natural England. 28-day response. Consent depends on existing habitat value and planting impact on SSSI features.', 'Species restrictions, planting density limits, exclusion zones around sensitive features', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration', 'GB'],
-    ['Construction (buildings, tracks, fencing)', 1, 'Apply to Natural England. 28-day response. Major construction rarely consented. Minor works (fencing for grazing management) more likely to be approved.', 'Design specifications, materials restrictions, seasonal construction windows, reinstatement conditions', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration', 'GB'],
-    ['Managed burning', 1, 'Apply to Natural England. 28-day response. Burning on SSSIs requires consent even during the legal burning season.', 'Burning rotation plans, fire break requirements, wind speed limits, exclusion zones', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration', 'GB'],
-    ['Mineral or soil extraction', 1, 'Apply to Natural England. 28-day response. Extraction on SSSIs is strongly resisted. Planning permission also required.', 'Volume limits, phased extraction, restoration plans, monitoring requirements', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) plus restoration', 'GB'],
-    ['SSSI appeal process', 1, 'If Natural England refuses consent or attaches unacceptable conditions, appeal to the Secretary of State. Alternatively, apply to do the operation and if refused, may claim compensation for financial loss.', null, null, 'GB'],
-    ['Nutrient enrichment from adjacent farmland', 0, 'Landowner of SSSI is liable for damage caused by nutrient enrichment (nitrogen, phosphorus) from adjacent farmland, even if the nutrients originate from a neighbouring farm. Natural England may serve a management notice requiring remedial action. The Water Environment (Water Framework Directive) Regulations 2017 and Reduction and Prevention of Agricultural Diffuse Pollution Regulations 2018 also apply to nutrient runoff affecting SSSIs.', 'Buffer zones, reduced application rates on fields draining to SSSI, cover crops, sediment traps', 'Up to 20,000 GBP (magistrates) or unlimited fine (Crown Court) for SSSI damage. Separate liability under diffuse pollution regulations.', 'GB'],
-    ['Undergrazing as damaging operation', 1, 'Natural England may prescribe minimum stocking levels or grazing regimes where undergrazing is damaging the SSSI interest features. Lack of grazing on grassland SSSIs leads to scrub encroachment, loss of species diversity, and degradation of the notified features. NE can enter into management agreements (with payments) or ultimately serve management notices requiring grazing.', 'Minimum stocking density, seasonal grazing requirements, species-specific grazing (cattle vs sheep), scrub clearance prescriptions', 'Failure to comply with management notice: up to 20,000 GBP (magistrates) or unlimited fine (Crown Court)', 'GB'],
-    ['SSSI management agreement compensation', 0, 'If Natural England refuses consent for a listed operation that would otherwise be profitable, the landowner may claim compensation under section 28M of the Wildlife and Countryside Act 1981. Compensation is based on the financial loss resulting from the refusal. Alternatively, NE may offer a management agreement with annual payments in lieu of the refused operation. Management agreements are typically for 10-25 years.', null, null, 'GB'],
-    ['Countryside Stewardship Higher Tier SSSI priority', 0, 'SSSI land receives priority scoring for Countryside Stewardship Higher Tier applications. CS Higher Tier provides annual payments for specific management prescriptions that maintain or restore SSSI features. Typical options include grassland management (GS6-GS8), heathland restoration (LH1-LH2), wetland management (WT5-WT7), and woodland management (WD1-WD2). Payments are higher than Mid Tier and reflect the additional management burden. Natural England is the delivery body and provides free SSSI-specific management advice.', null, null, 'GB'],
+    [
+      'Dræning og vandstandssænkning i §3-arealer',
+      1,
+      'Søg dispensation hos kommunen. Kommunen vurderer indgrebet i forhold til §3-naturtypens tilstand og bevaringsstatus. Dispensation gives meget sjældent til irreversible indgreb som dræning.',
+      'Evt. dispensation vil typisk kræve kompenserende foranstaltninger: vandstandshævning andetsteds, naturgenopretning, overvågning.',
+      'Bøde op til 10.000 DKK. Påbud om retablering af vandstanden for ejerens regning. Kommunen kan anlægge sag.',
+      'DK',
+    ],
+    [
+      'Dyrkning og jordbehandling i §3-arealer',
+      1,
+      'Søg dispensation hos kommunen. Dyrkning af §3-beskyttede arealer er stærkt begrænset. Eksisterende lovlig dyrkning kan fortsættes, men udvidelse kræver dispensation.',
+      'Evt. dispensation kræver bevis for at §3-tilstanden ikke forringes. Naturindholdet skal vurderes.',
+      'Bøde og påbud om retablering. §3-arealets tilstand skal genoprettes for ejerens regning.',
+      'DK',
+    ],
+    [
+      'Gødskning af §3-arealer',
+      1,
+      'Søg dispensation hos kommunen. Gødskning af §3-beskyttede enge, heder og overdrev er generelt forbudt. Eksisterende gødskning kan muligvis fortsættes på visse arealer.',
+      'Evt. dispensation kræver dokumentation for at gødskning ikke skader naturtypens tilstand og karakteristiske plantesamfund.',
+      'Bøde op til 10.000 DKK. Påbud om at stoppe gødskning. Kommunen fører tilsyn.',
+      'DK',
+    ],
+    [
+      'Brug af pesticider i §3-arealer',
+      1,
+      'Søg dispensation hos kommunen. Brug af pesticider på §3-beskyttede arealer er generelt forbudt. Mekanisk bekæmpelse af invasive arter kan tillades.',
+      'Evt. dispensation til invasive arteres bekæmpelse kræver godkendt plan og skånsomt middel.',
+      'Bøde ved ulovlig sprøjtning. Påbud om retablering. Landbrugsstyrelsen og kommunen fører tilsyn.',
+      'DK',
+    ],
+    [
+      'Anlægsarbejde i §3-arealer (veje, bygninger, hegn)',
+      1,
+      'Søg dispensation hos kommunen. Dispensation gives sjældent til permanente anlæg i §3-arealer. Midlertidige anlæg som elledninger kan dispenseres med vilkår om retablering.',
+      'Dispensationsbetingelser kan inkludere: tidsbegrænset tilladelse, krav om fuld retablering, kompenserende natur andetsteds.',
+      'Bøde op til 10.000 DKK. Påbud om fjernelse for ejerens regning. Kommunen kan lade fjernelse udføre for ejerens regning.',
+      'DK',
+    ],
+    [
+      'Afbrænding i §3-arealer',
+      1,
+      'Kontrolleret afbrænding kan dispensationssøges hos kommunen i forvaltningsmæssige øjemed (hedepleje). Afbrænding i tørre perioder og på §3-arealer er generelt forbudt.',
+      'Evt. dispensation kræver: aftale med brandvæsnet, afklaring af vind- og vejrforhold, sæsonbegrænsning.',
+      'Brandstiftelse: strafferetlige sanktioner. Overtrædelse af §3: bøde og påbud om retablering.',
+      'DK',
+    ],
+    [
+      'Tilplantning i §3-arealer',
+      1,
+      'Tilplantning af eksisterende §3-natur er forbudt, da det ændrer naturtypens karakter. Naturlig tilgroning kan kontrolleres via slåning og afgræsning.',
+      'Søg kommunens vejledning om pleje af §3-areal. Slåning og afgræsning til naturpleje er tilladt og ønskeligt.',
+      'Ulovlig tilplantning: bøde. Påbud om fjernelse af ulovligt plantet vegetation for ejerens regning.',
+      'DK',
+    ],
+    [
+      '§3-registrering og dispensationsansøgning',
+      0,
+      'Kontroller om arealet er §3-registreret på miljoeportalen.dk. Registreringen er vejledende -- det er naturtilstanden der afgør, om §3-beskyttelse gælder, ikke registreringen. Ansøg om dispensation via kommunens digital platform.',
+      null,
+      null,
+      'DK',
+    ],
   ];
 
   for (const [op, consent, process, conditions, penalties, jur] of sssiData) {
@@ -80,19 +246,72 @@ export function createSeededDatabase(dbPath: string): Database {
     );
   }
 
-  // --- Rights of Way ---
+  // --- Rights of Way / Adgangsret ---
+  // Source: Naturbeskyttelsesloven §14-§26 (adgangsretten til naturen)
   const rowData: [string, string, number, string | null, string, string, string][] = [
-    ['Footpath', 'Minimum width, reinstatement after disturbance, surface must be apparent to users', 1.0, 'Cannot grow crops on surface of cross-field path. Must make path line apparent. Field-edge paths: 1m minimum. Cross-field paths: 1.5m minimum.', 'Must reinstate within 14 days of disturbance. 24 hours for first disturbance if crop is already growing on a cross-field path.', 'Criminal offence to obstruct. Local authority has power to remove obstruction and charge landowner costs.', 'GB'],
-    ['Bridleway', 'Minimum width, reinstatement after disturbance, suitable for horse riders and cyclists', 2.0, 'Cannot grow crops on surface of cross-field path. Field-edge: 2m minimum. Cross-field: 3m minimum. Surface must be passable on horseback.', 'Must reinstate within 14 days of disturbance. 24 hours for first disturbance if crop already growing.', 'Criminal offence to obstruct. Local authority enforcement. Surface must be safe for horses.', 'GB'],
-    ['Restricted byway', 'Minimum width, no motor vehicles, suitable for walkers, horse riders, and non-motorised vehicles', 3.0, 'Cannot obstruct or narrow below minimum width. Available for walkers, horse riders, cyclists, and horse-drawn vehicles but not motor vehicles.', 'Must reinstate within 14 days of disturbance.', 'Criminal offence to obstruct. Higher enforcement priority due to broader usage rights.', 'GB'],
-    ['Byway open to all traffic (BOAT)', 'Minimum width, motor vehicles permitted, must maintain surface for all users', 5.0, 'Open to all traffic including motor vehicles. Cannot obstruct or narrow. Surface must support vehicular use.', 'Must reinstate within 14 days of disturbance.', 'Criminal offence to obstruct. Motor vehicle access means highway authority enforcement.', 'GB'],
-    ['Ploughing (cross-field paths)', 'May plough cross-field footpaths and bridleways but must reinstate', 1.5, 'Can plough cross-field paths (not field-edge). Must reinstate to minimum width within 14 days. 24 hours if path has already been ploughed once that season.', '14 days for first ploughing. 24 hours if already disturbed once in the same crop season.', 'Failure to reinstate is criminal offence. Local authority may reinstate and recover costs.', 'GB'],
-    ['Gates and stiles', 'Landowner must maintain in good repair. Gates preferred over stiles for accessibility.', 0, 'Landowner responsible for maintenance. Gate preferred over stile (Equality Act accessibility). Must not add new barriers without local authority permission. Self-closing gates acceptable.', null, 'Local authority can serve notice requiring repair. Failure to comply is offence.', 'GB'],
-    ['Crops on paths', 'Cannot inconvenience users by growing crops on path surface', 1.5, 'Cannot allow crop to grow on surface of any cross-field public right of way so as to inconvenience users. Must make path line apparent to users. Applies to all growing crops including grass re-seeds on cross-field paths.', null, 'Criminal offence. Fixed penalty notice or prosecution. Local authority may clear and recover costs.', 'GB'],
-    ['Bulls on paths', 'Restrictions on keeping bulls in fields crossed by public paths', 0, 'DAIRY BREED bulls over 10 months old are BANNED from any field or enclosure crossed by a public right of way -- this is an absolute prohibition with no exceptions. BEEF BREED bulls over 10 months old may be kept in fields crossed by public paths ONLY if accompanied by cows or heifers. Bulls under 10 months old of any breed are permitted. The breed determination is based on the bull itself, not the herd it runs with. Recognised dairy breeds include Holstein, Friesian, Ayrshire, Jersey, Guernsey, Kerry, Dairy Shorthorn.', null, 'Criminal offence. Injury or death from a bull on a public path may also result in HSE prosecution under Health and Safety at Work Act 1974, and personal injury claims. Maximum unlimited fine and/or imprisonment.', 'GB'],
-    ['Permissive paths', 'Voluntary paths with no statutory protection', 0, 'A permissive path is created by agreement or by the landowner allowing access voluntarily. It carries NO statutory protection -- the landowner may withdraw the permission at any time without notice or legal process. Permissive paths do not become public rights of way through use (provided the landowner takes reasonable steps to indicate the path is permissive, not dedicated). Common mechanisms: Natural England Higher Level Stewardship agreements (10-year permissive access), private agreements with parish councils, and voluntary dedication.', null, 'No offence to close a permissive path. However, closure of a path that has acquired public right-of-way status through 20 years uninterrupted use requires legal order.', 'GB'],
-    ['Electric fences crossing paths', 'Must be signed and safe where crossing public rights of way', 0, 'Electric fences crossing public rights of way must have a clearly visible warning sign at the crossing point stating the fence is electrified. The crossing point must be safe for users -- typically a non-electrified section with insulated handles, a gate, or a stile. Continuous electrification across a path with no safe crossing is an obstruction of the highway. Standard BS EN 60335-2-76 applies to electric fence installations. Fences must be properly earthed and use approved energisers.', null, 'Obstruction of highway is a criminal offence. Injury from unsigned electric fence may result in civil liability and HSE prosecution.', 'GB'],
-    ['Horse riding rights', 'Only bridleways, restricted byways, and byways -- NOT footpaths', 0, 'Horse riding is permitted on bridleways, restricted byways, and byways open to all traffic (BOATs). Horse riding is NOT permitted on public footpaths. Cyclists may use bridleways but must give way to walkers and horse riders. Carriage driving is permitted on restricted byways and BOATs but not on bridleways or footpaths. Off-road motor vehicles are only permitted on BOATs with valid road tax, MOT, and insurance. The landowner may grant permissive riding on footpaths or private land but this does not create a public right.', null, 'Riding a horse on a footpath is a trespass (civil matter, not criminal). However, causing damage may result in a civil claim. Cycling on a footpath is not a criminal offence but cycling dangerously on any path may be prosecuted.', 'GB'],
+    [
+      'Private skove (adgang til fods)',
+      'Offentligheden har ret til at færdes til fods på alle stier og veje i private skove fra solopgang til solnedgang. Ejeren kan regulere adgangen på konkrete stier.',
+      2.0,
+      'Ridning og cykling er kun tilladt på afmærkede stier i private skove. Hunde skal være i snor i skoven 1. april til 30. september. Hunde skal i alle årets måneder holdes i snor, når de er i nærheden af vildtet.',
+      'Ejere kan midlertidigt lukke stier i forbindelse med skovdrift, men offentligheden skal have adgang til skoven.',
+      'Hindring af lovlig adgang er en overtrædelse af Naturbeskyttelsesloven. Kommunen fører tilsyn.',
+      'DK',
+    ],
+    [
+      'Strandbredder og kysten (adgang)',
+      'Offentligheden har ret til at færdes til fods langs strandbredden. Adgang er tilladt inden for strandbeskyttelseslinjen (300m fra kysten). Badning og kortvarigt ophold er tilladt.',
+      0,
+      'Campering er ikke tilladt på stranden uden særlig tilladelse. Kørsel på stranden er forbudt undtagen på afmærkede steder. Hunde skal holdes i snor 1. april til 30. september.',
+      'Ejere kan ikke afskærme adgangen til strandbredden. Politiet og kommunen kan gribe ind.',
+      'Ulovlig afspærring af strandadgang: bøde og påbud om fjernelse af afspærring.',
+      'DK',
+    ],
+    [
+      'Overdrev, heder og strandenge (adgang)',
+      'Offentligheden har ret til at færdes til fods og cykle på arealer med åbne naturtyper (overdrev, heder, strandenge) og åbne, udyrkede arealer. Retten gælder fra solopgang til solnedgang.',
+      0,
+      'Ridning er ikke tilladt på åbne naturarealer uden ejers tilladelse, medmindre det er afmærkede rideruter. Hunde skal holdes i snor i perioden 1. april til 30. september.',
+      'Færdslen skal ske med respekt for naturen. Camping og bål er ikke tilladt på overdrev og heder.',
+      'Ulovlig afspærring: bøde. Kommunen og SNS fører tilsyn.',
+      'DK',
+    ],
+    [
+      'Offentlige stier og markveje',
+      'Offentlige stier og markveje (registreret i kommunens stiplan) er åbne for offentlig færdsel. Ejere må ikke spærre for adgangen. Stierne skal holdes i forsvarlig stand.',
+      2.0,
+      'Ejere er ansvarlige for at holde stier fri for afgrøder og forhindringer. Stier, der krydser dyrkede arealer, skal retableres inden for 14 dage efter forstyrrelse.',
+      'Retablering af sti krævet inden for 14 dage efter forstyrrelse. Kommunen kan pålægge ejeren at retablere.',
+      'Kriminel overtrædelse at spærre for offentlig stiadgang. Kommunen kan fjerne spærringer for ejerens regning.',
+      'DK',
+    ],
+    [
+      'Ridning på private arealer og i skove',
+      'Ridning er kun tilladt på afmærkede ridestier i private skove. På åbne naturarealer er ridning ikke tilladt uden ejers samtykke, medmindre der er afmærkede rideruter. Ridning på offentlige stier (sti til fods) er ikke tilladt.',
+      0,
+      null,
+      null,
+      'Ridning på ulovlige arealer er en overtrædelse af Naturbeskyttelsesloven. Ejeren kan politianmelde ridning på privat grund.',
+      'DK',
+    ],
+    [
+      'Hunde i naturen (båndpligt)',
+      'Hunde skal holdes i snor i perioden 1. april til 30. september i skove, på strandbredder og ved søer. Uden for denne periode skal hunde stadig holdes under kontrol, så de ikke jager vildt.',
+      0,
+      'Selv uden for båndpligtsperioden kan ejere kræve at hunde holdes i snor på private arealer. I §3-beskyttede naturtyper og fredede arealer kan der gælde særlige regler.',
+      null,
+      'Overtrædelse af båndpligten: bøde op til 1.000 DKK per hund per overtrædelse.',
+      'DK',
+    ],
+    [
+      'Campering og bål på private arealer',
+      'Campering og bål på private naturarealer er som udgangspunkt forbudt uden ejers tilladelse. Offentlige shelteranlæg og lejrpladser er undtaget.',
+      0,
+      null,
+      'Bål er forbudt i skove og i nærheden af plantager. Campering uden tilladelse er forbudt.',
+      'Overtrædelse: bøde. Kommunen og politiet kan gribe ind.',
+      'DK',
+    ],
   ];
 
   for (const [pathType, obligation, width, cropping, reinstatement, obstruction, jur] of rowData) {
@@ -103,15 +322,44 @@ export function createSeededDatabase(dbPath: string): Database {
     );
   }
 
-  // --- Common Land Rules ---
+  // --- Overdrev / Fællesarealer (Common Land Rules) ---
+  // Source: Naturbeskyttelsesloven; Lov om fælles jagt og hegn
   const commonData: [string, number, string, string, string][] = [
-    ['Fencing', 1, 'DEFRA (s.38 Commons Act 2006) or local authority (s.194 Law of Property Act 1925)', 'Apply to DEFRA for consent under s.38 Commons Act 2006. Application must demonstrate public benefit or necessity for land management. Alternatively, for commons in former metropolitan areas, apply to local authority under s.194 LPA 1925.', 'GB'],
-    ['Building or construction', 1, 'DEFRA (s.38 Commons Act 2006) or local authority', 'Generally prohibited without consent. Any permanent structure requires s.38 consent. Planning permission alone is not sufficient. Both s.38 consent and planning permission are needed.', 'GB'],
-    ['Driving vehicles', 1, 'Landowner or commons council', 'No driving on common land without lawful authority. Exception: commoners exercising registered rights. Emergency vehicles exempt. Access for land management may require explicit agreement.', 'GB'],
-    ['Public access for recreation', 0, 'Automatic right under CRoW Act 2000', 'Automatic right of access on foot for recreation under Countryside and Rights of Way Act 2000 s.2. Applies to all registered common land in England and Wales. Dogs must be on leads near livestock.', 'GB'],
-    ['Agricultural works', 1, 'DEFRA (s.38 Commons Act 2006)', 'Consent required for any permanent works affecting common land. Temporary agricultural operations (hay-making, stock movements) by commoners exercising rights do not need consent.', 'GB'],
-    ['Village green protection', 1, 'Local authority or Secretary of State', 'Registered village greens have special statutory protection under the Commons Act 2006 and the Commons Registration Act 1965. It is a criminal offence to damage or encroach upon a village green, or to interrupt the use of the green for lawful sports and pastimes. Registration as a village green requires evidence of use "as of right" by a significant number of local inhabitants for lawful sports and pastimes for a period of at least 20 years. Once registered, the protection is very strong -- development is effectively prohibited unless the green is de-registered by the Secretary of State (extremely rare).', 'GB'],
-    ['Open access land (CRoW Act)', 0, 'Automatic right under CRoW Act 2000', 'The Countryside and Rights of Way Act 2000 s.2 provides a right of access on foot for open-air recreation to all registered common land in England and Wales, plus mapped open country (mountain, moor, heath, down) and registered common land. Access is on foot only (no cycling, horse riding, or driving). Restrictions: no camping, no fires, no dogs off lead near livestock (1 March to 31 July on open access land). Landowners may restrict access for up to 28 days per year (except on common land) and indefinitely for land management reasons with Natural England approval. Excepted land: cultivated fields, gardens, buildings, quarries, railways, MoD land.', 'GB'],
+    [
+      'Dyrkning af overdrev og fællesarealer',
+      1,
+      'Kommunen (§3-dispensation); Landbrugsstyrelsen (landbrugspligt)',
+      'Overdrev er beskyttet under §3 i Naturbeskyttelsesloven. Dyrkning kræver dispensation fra kommunen. Dispensation gives sjældent, da overdrev er sjælden og beskyttet naturtype. Ansøg skriftligt til kommunens naturforvaltning.',
+      'DK',
+    ],
+    [
+      'Hegning og afspærring af overdrev',
+      1,
+      'Kommunen og lodsejere',
+      'Hegning af §3-beskyttede overdrev og fællesarealer kræver kommunens dispensation. Elektrisk afgræsningshegn til dyrehold kan accepteres, hvis det ikke hindrer offentlighedens adgang. Permanente hegn kræver dispensation og godkendelse.',
+      'DK',
+    ],
+    [
+      'Afgræsning af overdrev og åbne naturtyper',
+      0,
+      'Lodsejeren (ingen særlig tilladelse til afgræsning)',
+      'Afgræsning er den vigtigste plejeform for overdrev og tilsvarende åbne naturtyper. Afgræsning kræver ikke dispensation fra §3-beskyttelsen, da det er med til at bevare naturtypens karakter. Tilskud til afgræsning kan søges via Landbrugsstyrelsen (Natura 2000-tilskud, §3-tilskud).',
+      'DK',
+    ],
+    [
+      'Offentlighedens adgang til overdrev og åbne naturarealer',
+      0,
+      'Naturbeskyttelsesloven (automatisk ret)',
+      'Offentligheden har ret til at færdes til fods og cykle på åbne, udyrkede naturarealer (herunder overdrev, heder og strandenge) fra solopgang til solnedgang under Naturbeskyttelseslovens §24. Retten kan ikke fraviges af lodsejeren, medmindre der er særlig grund (f.eks. jagt eller skovdrift).',
+      'DK',
+    ],
+    [
+      'Ændring af arealanvendelse fra overdrev til markdrift',
+      1,
+      'Kommunen (§3-dispensation)',
+      'Permanent omlægning af §3-beskyttet overdrev til markdrift er forbudt uden dispensation. Ansøg hos kommunen med dokumentation for arealets historik og nuværende naturtilstand. Kommunen vurderer om dispensation er forenelig med bevaringen af naturtypens karakter.',
+      'DK',
+    ],
   ];
 
   for (const [activity, consent, authority, process, jur] of commonData) {
@@ -122,17 +370,54 @@ export function createSeededDatabase(dbPath: string): Database {
     );
   }
 
-  // --- Planting Guidance ---
+  // --- Planting Guidance (Skovrejsning) ---
+  // Source: Skovloven §3-§6; Skovtilskudsordningen; Miljøvurderingsloven
   const plantingData: [string, string, number | null, number, string, number, string][] = [
-    ['Woodland creation', 'Broadleaf', 1.0, 1, 'EWCO rate approximately 8,500 GBP/ha for broadleaf woodland creation. Additional payments for public access, nature recovery, and water quality benefits.', 15, 'GB'],
-    ['Woodland creation', 'Conifer', 1.0, 1, 'EWCO rate approximately 6,800 GBP/ha for conifer planting. Lower rate reflects faster establishment. Additional payments available for public access.', 15, 'GB'],
-    ['Agroforestry', 'Mixed', 0.5, 0, 'SFI agroforestry options available (not EWCO). Silvoarable and silvopasture integrated with farming systems. Payment rates vary by option.', 15, 'GB'],
-    ['Riparian planting', 'Broadleaf', null, 0, 'Grant available under Countryside Stewardship Water Capital items. No EIA required for narrow riparian strips. Focus on native broadleaf species for bank stabilisation and shade.', 15, 'GB'],
-    ['Ancient woodland buffer', 'Native broadleaf', null, 0, '15m buffer required for any new planting adjacent to ancient woodland. Buffer must use native species compatible with adjacent ancient woodland type. No non-native species within buffer.', 15, 'GB'],
-    ['Community woodland', 'Mixed', 0.5, 1, 'Higher EWCO contribution for woodlands with dedicated public access. Additional approximately 2,800 GBP/ha for full public access. Must provide maintained paths and access points.', 15, 'GB'],
-    ['Riparian woodland for water quality', 'Broadleaf', null, 0, 'Riparian woodland planting along watercourses reduces water temperature (shade), filters nutrient runoff, stabilises banks, and provides wildlife corridors. Funded under EWCO riparian supplement and Countryside Stewardship Water Capital items. No EIA required for narrow strips (<20m either side). Species: alder, willow, birch, oak, hazel. Avoid dense conifer planting adjacent to watercourses (acidification risk). Leave some open sections for kingfisher nesting banks and otter holts.', 15, 'GB'],
-    ['Natural regeneration (EWCO option)', 'Natural regen', null, 1, 'EWCO natural regeneration option: allow native woodland to establish from existing seed sources without active planting. Lower payment rate than active planting (approximately 4,500 GBP/ha) but lower establishment costs. Suitable where adjacent seed sources exist (within 50-100m). Must demonstrate natural regeneration is viable (existing seedlings, proximity to seed trees). Deer management plan typically required. EIA screening still applies. 15-year management plan required. Monitoring at years 1, 5, and 10 to verify establishment -- if natural regen fails, active planting may be required as condition.', 15, 'GB'],
-    ['Peatland restoration (tree removal)', 'None (restoration)', null, 1, 'Removing trees from deep peat (>50cm) to restore peatland function. Funded under Peatland Code (voluntary carbon market) and Nature for Climate Peatland Grant Scheme. Rationale: trees on deep peat cause drying and oxidation, releasing stored carbon. Restoration involves: felling and removing trees, blocking drainage ditches (ditch damming), raising water table, allowing sphagnum recolonisation. Peatland Code carbon credits: independently verified, tradeable on voluntary markets. EIA screening required for tree removal on peat. Forestry Commission approval needed for felling even on peat. Typical peatland restoration sites: upland blanket bog with afforestation from 1960s-80s.', 0, 'GB'],
+    [
+      'Skovrejsning (ny løvskov)',
+      'Løvtræer',
+      2.0,
+      0,
+      'Tilskud via Landbrugsstyrelsens Skovtilskudsordning: op til 50% af godkendte etableringsomkostninger for private lodsejere. Tilskud kræver 20-årig bindingsperiode og godkendt driftsplan. VVM-screening kræves over 20 ha.',
+      25,
+      'DK',
+    ],
+    [
+      'Skovrejsning (ny nåleskov)',
+      'Nåletræer',
+      2.0,
+      0,
+      'Lavere tilskud end løvskov. Nåleskov inden for negativt skovrejsningsområde (nær §3-natur, kystnærhed) gives ikke tilskud. Kontroller positivt/negativt skovrejsningsområde hos kommunen.',
+      25,
+      'DK',
+    ],
+    [
+      'Skovrejsning nær vandmiljø (vandløb og søer)',
+      'Brede- og elleskov',
+      null,
+      0,
+      'Tilskud til brede- og elleskov langs vandløb og søer. Kantzoner til vandmiljøbeskyttelse. Randzone på min. 2m fra vandløbet kræves. Ingen gødskning eller sprøjtning i randzonen.',
+      25,
+      'DK',
+    ],
+    [
+      'Agroforstbrug (skovlandbrug)',
+      'Blandet',
+      0.5,
+      0,
+      'Agroforstbrug kombinerer landbrug og skovbrug på samme areal. Tilskudsmuligheder under Landdistriktsprogrammet. Kræver godkendt plan. Skovdyrkningspligten gælder ikke for godkendte agroforstbrugssystemer.',
+      25,
+      'DK',
+    ],
+    [
+      'Naturlig tilgroning (ingen plantning)',
+      'Naturlig foryngelse',
+      null,
+      0,
+      'Naturlig tilgroning med hjemmehørende arter kan accepteres som alternativ til aktiv plantning i skovrejsningsplaner, forudsat der er frøkilder i nærheden. Kræver godkendelse fra Naturstyrelsen. Overvågning kræves de første 5 år. Lavere tilskudssats end aktiv plantning.',
+      25,
+      'DK',
+    ],
   ];
 
   for (const [purpose, species, minArea, eia, grant, buffer, jur] of plantingData) {
@@ -143,52 +428,111 @@ export function createSeededDatabase(dbPath: string): Database {
     );
   }
 
+  // --- Fredede træer / Skovbyggelinje (TPO equivalent) ---
+  // Source: Naturbeskyttelsesloven §17; Kommunale fredninger
+  const tpoData: [string, number, string, string | null, string, string, string, string][] = [
+    [
+      'Fældning af kommunalt fredede træer',
+      1,
+      'Kommunen (byggesagsafdeling eller naturforvaltning)',
+      'Mindre beskæring til pleje kan i nogle kommuner udføres uden tilladelse. Kontroller den konkrete fredningskendelse.',
+      'Ansøg kommunen om dispensation fra fredningskendelsen. Vedlæg arboristrapport. Kommunen vurderer om fældning er nødvendig (f.eks. ved fare for ejendom og person).',
+      'Bøde for ulovlig fældning af fredet træ. Kommunen kan kræve erstatningsplantning.',
+      'Kommunal fredningskendelse; Planloven; Naturbeskyttelsesloven §43',
+      'DK',
+    ],
+    [
+      'Bygning og anlæg i skovbyggelinjen (300m fra skov)',
+      1,
+      'Kommunen',
+      'Landbrugets driftsbygninger og anlæg med direkte tilknytning til landbrugsdrift kan i visse tilfælde dispenseres. Primitive shelters og fugletårne tillades normalt.',
+      'Søg landzonetilladelse og dispensation fra skovbyggelinjen hos kommunen. Begge tilladelser er normalt nødvendige. Kommunen vurderer det visuelle og rekreative hensyn til skoven.',
+      'Bøde og påbud om nedrivning. Kommunen kan gennemtvinge fjernelse for ejerens regning.',
+      'Naturbeskyttelsesloven §17 (skovbyggelinje)',
+      'DK',
+    ],
+    [
+      'Bygning og anlæg i fortidsmindebeskyttelseslinjen (100m fra fortidsminde)',
+      1,
+      'Kommunen',
+      'Primitive rekreative anlæg nær fortidsmindet kan dispenseres. Landbrugets nødvendige driftsbygninger vurderes konkret.',
+      'Søg dispensation hos kommunen. Vedlæg situationsplan og begrundelse. Kommunen høres om, om anlægget er til skade for den visuelle oplevelse og bevaring af fortidsmindet.',
+      'Bøde og påbud om fjernelse. Kommunen kan lade fjernelse udføre for ejerens regning.',
+      'Naturbeskyttelsesloven §18 (fortidsmindebeskyttelseslinje)',
+      'DK',
+    ],
+    [
+      'Fældning i nærheden af fredede fortidsminder',
+      0,
+      null,
+      'Fældning af træer er normalt ikke begrænset af fortidsmindebeskyttelseslinjen, men større anlægsarbejde i forbindelse med rydning kan kræve tilladelse. Jordarbejde tæt på et fredet fortidsminde kræver altid forudgående tilladelse fra Kulturstyrelsen.',
+      'Kontakt Kulturstyrelsen, hvis jordarbejde er nødvendigt i nærheden af fredede fortidsminder. Jordarbejde kan beskadige arkeologiske lag under markoverfladen.',
+      'Skade på fredet fortidsminde: bøde og strafferetlig forfølgning. Kulturstyrelsen fører tilsyn.',
+      'Museumslovens §29j; Naturbeskyttelsesloven §18',
+      'DK',
+    ],
+  ];
+
+  for (const [scenario, consent, authority, exemptions, process, penalties, ref, jur] of tpoData) {
+    db.run(
+      `INSERT INTO tpo_rules (scenario, consent_required, consent_authority, exemptions, process, penalties, regulation_ref, jurisdiction)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [scenario, consent, authority, exemptions, process, penalties, ref, jur]
+    );
+  }
+
   // --- FTS5 Search Index ---
   const ftsData: [string, string, string, string][] = [
-    ['Hedgerow removal notice', 'Under the Hedgerow Regulations 1997, removing a hedgerow requires 42 days notice to the local planning authority. The LPA may issue a hedgerow retention notice if the hedgerow is classified as important under Schedule 1.', 'hedgerow', 'GB'],
-    ['Important hedgerow criteria', 'A hedgerow is classified as important if it is over 30 years old and meets at least one Schedule 1 criterion: supports protected species, recorded in parish boundary records, includes archaeological features, or marks a pre-1850 boundary.', 'hedgerow', 'GB'],
-    ['Hedgerow trimming season', 'Hedgerow trimming should not take place during bird nesting season (1 March to 31 August) under cross-compliance GAEC 7a. No notice is needed for trimming outside nesting season.', 'hedgerow', 'GB'],
-    ['Hedgerow penalties', 'Unlawful hedgerow removal carries a fine of up to 25,000 GBP plus a remediation order requiring replanting. A 2m buffer from the centre of the hedge must be maintained under cross-compliance.', 'hedgerow', 'GB'],
-    ['Felling licence threshold', 'A felling licence from the Forestry Commission is required when felling more than 5 cubic metres of timber in any calendar quarter. Up to 2 cubic metres of the 5 m3 exemption may be sold.', 'felling', 'GB'],
-    ['Felling licence application', 'Apply to the Forestry Commission online or via Form FC1. Statutory determination period is 8 weeks. Replanting conditions are normally attached, requiring replanting within 2 years with specified species.', 'felling', 'GB'],
-    ['Felling exemptions', 'Exempt from felling licence: fruit trees, garden trees (under 0.1ha), trees covered by planning permission, dangerous trees (notify FC within 5 days). TPO trees need separate local authority consent.', 'felling', 'GB'],
-    ['Felling penalties', 'Felling without a licence carries a fine of up to 2,500 GBP or twice the value of the trees, whichever is greater. Court may also order replanting.', 'felling', 'GB'],
-    ['SSSI consent requirement', 'Any operation listed on the SSSI notification requires consent from Natural England before it can be carried out. Natural England has 28 days to respond. Operations include grazing changes, drainage, fertiliser application, burning, and construction.', 'sssi', 'GB'],
-    ['SSSI penalties', 'Carrying out operations on an SSSI without Natural England consent: up to 20,000 GBP fine in magistrates court or unlimited fine in Crown Court, plus restoration costs.', 'sssi', 'GB'],
-    ['SSSI appeal', 'If Natural England refuses consent or attaches unacceptable conditions, the owner can appeal to the Secretary of State. Compensation may be claimed for financial loss caused by refusal.', 'sssi', 'GB'],
-    ['Footpath width and reinstatement', 'Public footpaths: minimum 1m wide (field edge) or 1.5m (cross-field). Must reinstate within 14 days of disturbance. 24 hours if crop already growing on a cross-field path. Cannot grow crops on the path surface.', 'rights_of_way', 'GB'],
-    ['Bridleway width and reinstatement', 'Public bridleways: minimum 2m wide (field edge) or 3m (cross-field). Must reinstate within 14 days. Same 24-hour rule for subsequent disturbance. Surface must be passable on horseback.', 'rights_of_way', 'GB'],
-    ['Public right of way obstruction', 'Obstructing a public right of way is a criminal offence. The local authority has power to remove obstructions and charge the landowner. Gates and stiles must be maintained in good repair. Gates preferred over stiles for accessibility.', 'rights_of_way', 'GB'],
-    ['Ploughing cross-field paths', 'Landowners may plough cross-field footpaths and bridleways but must reinstate within 14 days. If the path has already been disturbed once that season, reinstatement must be within 24 hours.', 'rights_of_way', 'GB'],
-    ['Common land fencing', 'Fencing on common land requires consent from DEFRA under s.38 Commons Act 2006 or from the local authority under s.194 Law of Property Act 1925. Fencing without consent is unlawful.', 'common_land', 'GB'],
-    ['Common land public access', 'All registered common land in England and Wales has automatic right of public access on foot for recreation under the Countryside and Rights of Way Act 2000 s.2.', 'common_land', 'GB'],
-    ['Woodland creation grants EWCO', 'England Woodland Creation Offer: approximately 8,500 GBP/ha for broadleaf, 6,800 GBP/ha for conifer. Additional 2,800 GBP/ha for public access. EIA screening required if over 5 hectares on semi-natural habitat.', 'planting', 'GB'],
-    ['Ancient woodland buffer', 'A 15-metre buffer of native species is required for any new planting adjacent to ancient woodland. No non-native species may be planted within the buffer zone.', 'planting', 'GB'],
-    ['EIA screening for woodland planting', 'Environmental Impact Assessment screening under the EIA (Forestry) Regulations 1999 is required for new woodland planting over 5 hectares on semi-natural habitat, or for planting in sensitive areas regardless of size.', 'planting', 'GB'],
+    // Hegn
+    ['Fjernelse af levende hegn (Hegnsloven)', 'Under Hegnsloven kræver fjernelse af levende hegn langs ejendomsgrænser naboens samtykke. Hegnssyn kan pålægge genplantning ved ulovlig fjernelse.', 'hedgerow', 'DK'],
+    ['§3-beskyttede arealer og hegn', 'Hegn og indgreb i §3-beskyttede naturtyper (ferske enge, moser, heder, overdrev, strandenge) kræver dispensation fra kommunen. Dispensation gives sjældent til permanente anlæg.', 'hedgerow', 'DK'],
+    ['Randzoner langs vandløb', 'Obligatorisk randzone på 2 meter langs vandløb og søer over 100 m2. Ingen sprøjtning, gødskning eller jordbehandling i randzonen. Hegn langs vandløbskanten er ikke tilladt inden for randzonen.', 'hedgerow', 'DK'],
+    ['Hegn i strandbeskyttelseslinjen', 'Faste hegn inden for strandbeskyttelseslinjen (300m fra kysten) kræver dispensation fra Kystdirektoratet. Strandbeskyttelseslinjens formål er at sikre fri adgang til kysten.', 'hedgerow', 'DK'],
+    ['Hegnssyn ved nabotvist', 'Hegnssyn foretages af lokale hegnssynsmænd udpeget af kommunen. Kan pålægge oprettelse, vedligeholdelse eller fjernelse af hegn. Afgørelse kan ankes til Taksationskommissionen.', 'hedgerow', 'DK'],
+    ['Klipning af levende hegn ynglesæson', 'Klipning af levende hegn er tilladt hele året, men god landbrugspraksis anbefaler at undgå fuglenes ynglesæson (15. marts til 15. august). Naturbeskyttelseslovens §29 beskytter fugle og reder.', 'hedgerow', 'DK'],
 
-    // New FTS entries for expanded data
-    ['Important Hedgerow Schedule 1 criteria', 'A hedgerow is classified as important if it is at least 30 years old AND meets at least one Schedule 1 criterion: marks a pre-1850 parish or township boundary, contains a protected species, contains 7 or more woody species in a 30-metre section (6 in northern England), has associated features (bank, ditch, mature trees) with at least 4 woody species per 30m, or is part of a pre-1845 field system. LPA may issue a hedgerow retention notice preventing removal.', 'hedgerow', 'GB'],
-    ['Hedgerow planting grants CS HB1', 'Countryside Stewardship option HB1 provides approximately 11.60 GBP per metre for planting new hedgerows. Additional supplements available for species-rich hedges and associated features such as banks and ditches.', 'hedgerow', 'GB'],
-    ['Species-rich hedge definition', 'A species-rich hedgerow contains 5 or more native woody species per 30-metre section. The 7-species threshold applies to the Important Hedgerow criteria under Schedule 1 of the Hedgerow Regulations 1997. Native species include hawthorn, blackthorn, hazel, field maple, dogwood, spindle, guelder rose, dog rose, holly, oak, ash.', 'hedgerow', 'GB'],
-    ['Devon hedgebanks heritage management', 'Devon hedgebanks are earth and stone structures with vegetation on top. They are distinct from planted hedgerows and require traditional management including stone facing repair and re-turfing rather than hedge laying or coppicing. Protected under the Hedgerow Regulations 1997. Stewardship of Earth Bank option under Countryside Stewardship.', 'hedgerow', 'GB'],
-    ['Restocking conditions on felling licences', 'Most felling licences include restocking conditions requiring replanting within 2 planting seasons. Conditions specify species, density (typically 2,500 stems/ha for broadleaf), and minimum establishment rate. Failure to restock: Forestry Commission may serve a restocking notice and carry out the work at the landowner cost.', 'felling', 'GB'],
-    ['Ash dieback Chalara felling exemption', 'Ash trees affected by Chalara (Hymenoscyphus fraxineus) may be felled without a licence if dead, dying, or dangerous as a result of the disease. Must still notify the Forestry Commission within 5 working days. Restocking conditions still apply. Statutory Plant Health Notice may require felling.', 'felling', 'GB'],
-    ['Veteran and ancient trees planning protection', 'Veteran and ancient trees have no automatic statutory protection but carry strong weight in the planning system under NPPF paragraph 180c. Development resulting in loss or deterioration of ancient or veteran trees should be refused unless wholly exceptional reasons exist. The Ancient Tree Inventory maintained by the Woodland Trust records known ancient and veteran trees.', 'felling', 'GB'],
-    ['High hedges evergreen neighbour disputes', 'Evergreen hedges over 2 metres tall affecting a neighbour may be subject to complaint under Part 8 of the Anti-social Behaviour Act 2003. The local authority may issue a remedial notice requiring height reduction. This is separate from the Hedgerow Regulations 1997. Only applies to domestic/garden boundaries, not hedges between fields.', 'hedgerow', 'GB'],
-    ['Woodland management plans Forestry Commission', 'A 10-year FC-approved woodland management plan provides a framework for ongoing felling and restocking without individual licence applications. Covers objectives, inventory, thinning schedule, felling coupes, restocking species, environmental considerations. Required for EWCO and CS woodland options. Satisfies UK Forestry Standard.', 'felling', 'GB'],
-    ['SSSI nutrient enrichment liability', 'Landowners of SSSI land are liable for damage caused by nutrient enrichment from adjacent farmland, even if nutrients originate from a neighbouring farm. Natural England may serve a management notice requiring remedial action. Buffer zones, reduced application rates, and cover crops may be prescribed.', 'sssi', 'GB'],
-    ['SSSI undergrazing damage', 'Natural England may prescribe minimum stocking levels where undergrazing damages SSSI interest features. Lack of grazing leads to scrub encroachment and loss of species diversity. NE can enter management agreements with payments or serve management notices requiring grazing.', 'sssi', 'GB'],
-    ['SSSI management agreement compensation', 'If Natural England refuses consent for a listed operation, the landowner may claim compensation based on financial loss. Alternatively NE may offer a management agreement with annual payments. Agreements typically 10-25 years.', 'sssi', 'GB'],
-    ['Countryside Stewardship Higher Tier SSSI priority', 'SSSI land receives priority scoring for Countryside Stewardship Higher Tier applications. CS Higher Tier provides payments for specific management prescriptions maintaining or restoring SSSI features. Options include grassland, heathland, wetland, and woodland management.', 'sssi', 'GB'],
-    ['Bulls on public rights of way', 'DAIRY BREED bulls over 10 months old are BANNED from fields crossed by public rights of way -- absolute prohibition, no exceptions. BEEF BREED bulls over 10 months old may be kept in fields with public paths ONLY if accompanied by cows or heifers. Bulls under 10 months of any breed are permitted. Recognised dairy breeds: Holstein, Friesian, Ayrshire, Jersey, Guernsey, Kerry, Dairy Shorthorn.', 'rights_of_way', 'GB'],
-    ['Permissive paths voluntary access', 'Permissive paths are created voluntarily by landowners and carry no statutory protection. The landowner may withdraw permission at any time. Permissive paths do not become public rights of way through use provided the landowner indicates the path is permissive. Common under HLS agreements (10-year permissive access). Closure does not require legal process.', 'rights_of_way', 'GB'],
-    ['Electric fences on public paths', 'Electric fences crossing public rights of way must have a clearly visible warning sign. A non-electrified crossing section with insulated handles, gate, or stile must be provided. Continuous electrification across a path with no safe crossing is a highway obstruction offence.', 'rights_of_way', 'GB'],
-    ['Horse riding path types', 'Horse riding is permitted on bridleways, restricted byways, and byways open to all traffic (BOATs). Horse riding is NOT permitted on public footpaths. Cyclists may use bridleways giving way to walkers and riders. Carriage driving on restricted byways and BOATs only.', 'rights_of_way', 'GB'],
-    ['Village green protection', 'Registered village greens have special statutory protection. Criminal offence to damage or encroach upon a village green or interrupt use for lawful sports and pastimes. Registration requires evidence of 20 years public use as of right. Development effectively prohibited once registered.', 'common_land', 'GB'],
-    ['Open access land CRoW Act', 'CRoW Act 2000 s.2 provides right of access on foot to all registered common land plus mapped open country (mountain, moor, heath, down). Access on foot only. No camping, fires, or dogs off lead near livestock. Landowners may restrict up to 28 days per year (except common land).', 'common_land', 'GB'],
-    ['Riparian woodland water quality', 'Riparian woodland planting along watercourses reduces water temperature via shade, filters nutrient runoff, stabilises banks, and provides wildlife corridors. Funded under EWCO riparian supplement. Species: alder, willow, birch, oak. Avoid dense conifer near watercourses (acidification).', 'planting', 'GB'],
-    ['Natural regeneration EWCO option', 'EWCO natural regeneration option allows native woodland to establish from existing seed sources without active planting. Lower payment (approximately 4,500 GBP/ha). Must demonstrate viability with proximity to seed trees. Deer management plan required. Monitoring at years 1, 5, and 10.', 'planting', 'GB'],
-    ['Peatland restoration and tree removal', 'Removing trees from deep peat (over 50cm) to restore peatland function. Funded under Peatland Code (voluntary carbon credits) and Nature for Climate Peatland Grant Scheme. Trees on deep peat cause drying and carbon release. Restoration involves felling, blocking drainage ditches, and raising water table.', 'planting', 'GB'],
+    // Felling / Skovlov
+    ['Fældning i fredskov (Skovloven)', 'Skovlovens §8: Fredskov skal bevares som skov. Fældning kræver genplantning inden for den 3. vækstperiode. Permanent rydning kræver dispensation fra Naturstyrelsen.', 'felling', 'DK'],
+    ['Rydning af fredskov dispensation', 'Permanent rydning af fredskov kræver dispensation fra Naturstyrelsen og gives kun i særlige tilfælde, f.eks. til vigtige samfundsformål. Alternativt kræves erstatningsskov.', 'felling', 'DK'],
+    ['Fældning af nødstedte træer i fredskov', 'Akut farlige træer i fredskov kan fældes uden forudgående tilladelse. Ejeren skal meddele Naturstyrelsen inden for 5 hverdage. Genplantningspligten gælder stadig.', 'felling', 'DK'],
+    ['Skovdyrkningspligt genplantning', 'Arealer fældet i fredskov skal tilplantes igen senest inden udgangen af den 3. vækstperiode. Naturlig foryngelse kan accepteres som alternativ med Naturstyrelsens godkendelse.', 'felling', 'DK'],
+    ['Skovrejsning VVM-screening', 'Skovrejsning på arealer over 20 ha kræver VVM-screening. Skovrejsning tilskud op til 50% af etableringsomkostningerne via Skovtilskudsordningen. Kræver 20-årig bindingsperiode.', 'felling', 'DK'],
+    ['Fældning af enkelttstående træer uden for fredskov', 'Enkelttstående træer og hegn uden for registreret fredskov kræver normalt ikke tilladelse. Dog gælder §3-beskyttelse, fredede arealer og kommunale fredninger.', 'felling', 'DK'],
+    ['Juletræer og pyntegrønt ikke fredskov', 'Juletræsplantager er ikke fredskov og er ikke underlagt skovlovens regler. Fældning kræver ikke tilladelse. Dog gælder §3-beskyttelse og randzoner.', 'felling', 'DK'],
+
+    // §3-natur (SSSI equivalent)
+    ['§3-beskyttede naturtyper dispensation', 'Naturbeskyttelseslovens §3 beskytter ferske enge, moser, heder, overdrev, strandenge og søer. Indgreb kræver dispensation fra kommunen. Dispensation gives sjældent til irreversible indgreb.', 'sssi', 'DK'],
+    ['Dræning og vandstandssænkning §3', 'Dræning og vandstandssænkning i §3-arealer kræver dispensation fra kommunen. Dispensation gives meget sjældent til irreversible indgreb. Bøde og påbud om retablering ved overtrædelse.', 'sssi', 'DK'],
+    ['Gødskning og sprøjtning §3-arealer', 'Gødskning og brug af pesticider på §3-beskyttede enge, heder og overdrev er generelt forbudt. Dispensation kræves og gives sjældent. Bøde og påbud om retablering.', 'sssi', 'DK'],
+    ['Tilplantning i §3-natur forbudt', 'Tilplantning af §3-beskyttede naturtyper er forbudt, da det ændrer naturtypens karakter. Naturlig tilgroning håndteres via slåning og afgræsning som pleje.', 'sssi', 'DK'],
+    ['§3-registrering på miljoeportalen', '§3-registreringen kan ses på miljoeportalen.dk. Registreringen er vejledende -- det er naturtilstanden, der afgør om §3-beskyttelse gælder. Ansøg om dispensation via kommunens digitale platform.', 'sssi', 'DK'],
+    ['Anlægsarbejde og bygning i §3-arealer', 'Anlægsarbejde og permanente bygninger i §3-beskyttede naturtyper kræver dispensation fra kommunen. Dispensation gives sjældent. Bøde og påbud om fjernelse ved overtrædelse.', 'sssi', 'DK'],
+
+    // Adgangsret (Rights of Way)
+    ['Adgang til private skove (adgangsret)', 'Offentligheden har ret til at færdes til fods i private skove fra solopgang til solnedgang. Ridning og cykling kun på afmærkede stier. Hunde i snor 1. april til 30. september.', 'rights_of_way', 'DK'],
+    ['Adgang til strandbredder', 'Offentligheden har ret til at færdes langs strandbredden inden for strandbeskyttelseslinjen (300m). Campering og kørsel på strand er forbudt. Badning og kortvarigt ophold er tilladt.', 'rights_of_way', 'DK'],
+    ['Adgang til overdrev og heder', 'Offentligheden har ret til at færdes til fods og cykle på åbne naturarealer (overdrev, heder, strandenge) fra solopgang til solnedgang. Ridning kræver ejers tilladelse.', 'rights_of_way', 'DK'],
+    ['Hunde båndpligt i naturen', 'Hunde skal holdes i snor i perioden 1. april til 30. september i skove, på strandbredder og ved søer. Bøde op til 1.000 DKK per overtrædelse. Ejere kan kræve snor på privat grund udenfor perioden.', 'rights_of_way', 'DK'],
+    ['Offentlige stier og markveje', 'Offentlige stier og markveje er åbne for færdsel. Ejere er ansvarlige for vedligeholdelse. Retablering af sti kræves inden for 14 dage efter forstyrrelse ved markdrift.', 'rights_of_way', 'DK'],
+    ['Ridning i naturen', 'Ridning er kun tilladt på afmærkede ridestier i private skove. På åbne naturarealer kræver ridning ejers samtykke. Ridning på offentlige stier (kun til fods) er ikke tilladt.', 'rights_of_way', 'DK'],
+
+    // Overdrev / fællesarealer (Common land)
+    ['Overdrev §3-beskyttelse og dyrkning', 'Overdrev er §3-beskyttet natur. Dyrkning kræver dispensation fra kommunen. Dispensation gives sjældent, da overdrev er sjælden naturtype. Afgræsning er tilladt og ønsket.', 'common_land', 'DK'],
+    ['Afgræsning af overdrev (tilskud)', 'Afgræsning af overdrev kræver ikke dispensation og er den vigtigste plejeform. Tilskud kan søges via Landbrugsstyrelsen (Natura 2000-tilskud, §3-tilskud).', 'common_land', 'DK'],
+    ['Adgang til overdrev og fællesarealer', 'Offentligheden har automatisk ret til at færdes til fods og cykle på åbne, udyrkede naturarealer under Naturbeskyttelseslovens §24 fra solopgang til solnedgang.', 'common_land', 'DK'],
+    ['Hegning af overdrev', 'Hegning af §3-beskyttede overdrev og fællesarealer kræver kommunens dispensation. Elektrisk afgræsningshegn til dyrehold kan accepteres, hvis det ikke hindrer offentlighedens adgang.', 'common_land', 'DK'],
+
+    // Skovrejsning (Planting)
+    ['Skovrejsningstilskud løvskov', 'Tilskud til skovrejsning med løvskov op til 50% af godkendte etableringsomkostninger via Skovtilskudsordningen. Kræver 20-årig bindingsperiode og godkendt driftsplan.', 'planting', 'DK'],
+    ['Skovrejsning VVM og negativt skovrejsningsområde', 'Skovrejsning over 20 ha kræver VVM-screening. Skovrejsning i negativt skovrejsningsområde (nær §3-natur, kystnærhed) gives ikke tilskud. Kontroller kortlægning hos kommunen.', 'planting', 'DK'],
+    ['Brede- og elleskov langs vandløb', 'Tilskud til skovrejsning langs vandløb og søer med brede- og elleskov. Kantzoner til vandmiljøbeskyttelse. Randzone på min. 2m fra vandløbet kræves.', 'planting', 'DK'],
+    ['Naturlig tilgroning alternativ til plantning', 'Naturlig tilgroning med hjemmehørende arter kan accepteres som alternativ til aktiv plantning i skovrejsningsplaner ved Naturstyrelsens godkendelse. Overvågning kræves de første 5 år.', 'planting', 'DK'],
+    ['Agroforstbrug tilskud', 'Agroforstbrug kombinerer landbrug og skovbrug. Tilskudsmuligheder under Landdistriktsprogrammet. Kræver godkendt plan. Skovdyrkningspligten gælder ikke for godkendte agroforstbrugssystemer.', 'planting', 'DK'],
+
+    // Fredede træer / Skovbyggelinje (TPO equivalent)
+    ['Kommunalt fredede træer fældning', 'Fældning af kommunalt fredede træer kræver dispensation fra kommunen. Vedlæg arboristrapport. Bøde og krav om erstatningsplantning ved ulovlig fældning.', 'sssi', 'DK'],
+    ['Skovbyggelinje 300m byggetilladelse', 'Bygning og anlæg inden for skovbyggelinjen (300m fra skov) kræver landzonetilladelse og dispensation fra kommunen. Skovbyggelinjen beskytter skovens visuelle og rekreative miljø.', 'planting', 'DK'],
+    ['Fortidsmindebeskyttelseslinje 100m', 'Bygning og anlæg inden for 100m fra fredede fortidsminder kræver dispensation fra kommunen. Jordarbejde tæt på fortidsminder kræver forudgående tilladelse fra Kulturstyrelsen.', 'sssi', 'DK'],
   ];
 
   for (const [title, body, topic, jur] of ftsData) {
@@ -199,8 +543,8 @@ export function createSeededDatabase(dbPath: string): Database {
   }
 
   // --- Metadata ---
-  db.run("INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('last_ingest', '2026-04-03')", []);
-  db.run("INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('build_date', '2026-04-03')", []);
+  db.run("INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('last_ingest', '2026-04-06')", []);
+  db.run("INSERT OR REPLACE INTO db_metadata (key, value) VALUES ('build_date', '2026-04-06')", []);
 
   return db;
 }
