@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import type { Database } from '../db.js';
 
@@ -54,5 +55,12 @@ export function handleGetRightsOfWayRules(db: Database, args: RoWArgs) {
       obstruction_liability: r.obstruction_liability,
     })),
     _meta: buildMeta({ source_url: 'https://www.legislation.gov.uk/ukpga/1980/66/contents' }),
+    _citation: buildCitation(
+      `rights-of-way:${args.path_type ?? args.issue ?? 'all'}`,
+      `Rights of way rules${args.path_type ? `: ${args.path_type}` : ''}`,
+      'get_rights_of_way_rules',
+      { ...(args.path_type ? { path_type: args.path_type } : {}), ...(args.issue ? { issue: args.issue } : {}) },
+      'https://www.legislation.gov.uk/ukpga/1980/66/contents',
+    ),
   };
 }

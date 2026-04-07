@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import type { Database } from '../db.js';
 
@@ -63,5 +64,12 @@ export function handleGetPlantingGuidance(db: Database, args: PlantingArgs) {
       ancient_woodland_buffer_m: g.ancient_woodland_buffer_m,
     })),
     _meta: buildMeta({ source_url: 'https://www.gov.uk/guidance/england-woodland-creation-offer' }),
+    _citation: buildCitation(
+      `planting:${args.tree_type ?? args.purpose ?? 'all'}`,
+      `Planting guidance${args.tree_type ? `: ${args.tree_type}` : ''}${args.purpose ? ` (${args.purpose})` : ''}`,
+      'get_planting_guidance',
+      { ...(args.tree_type ? { tree_type: args.tree_type } : {}), ...(args.purpose ? { purpose: args.purpose } : {}) },
+      'https://www.gov.uk/guidance/england-woodland-creation-offer',
+    ),
   };
 }
