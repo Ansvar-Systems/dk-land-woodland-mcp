@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import type { Database } from '../db.js';
 
@@ -47,5 +48,12 @@ export function handleGetTPORules(db: Database, args: TPOArgs) {
       regulation_ref: r.regulation_ref,
     })),
     _meta: buildMeta({ source_url: 'https://www.legislation.gov.uk/ukpga/1990/8/part/VIII' }),
+    _citation: buildCitation(
+      `tpo:${args.scenario ?? 'all'}`,
+      `TPO rules${args.scenario ? `: ${args.scenario}` : ''}`,
+      'get_tpo_rules',
+      { ...(args.scenario ? { scenario: args.scenario } : {}) },
+      'https://www.legislation.gov.uk/ukpga/1990/8/part/VIII',
+    ),
   };
 }
